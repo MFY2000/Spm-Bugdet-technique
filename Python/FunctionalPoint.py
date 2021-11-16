@@ -9,16 +9,18 @@ def main(userPoint, weight):
   wtFactors = {
       "Low": [3, 4, 3, 7, 5],
       "Average": [4, 5, 4, 10, 7],
-       "High": [6, 7, 6, 15, 10],
+      "High": [6, 7, 6, 15, 10],
   }
 
-  funUnits = {
-    "External Inputs": 0,
-    "External Outputs": 0,
-    "External Inquiries": 0,
-    "Internal Logical Files": 0,
-    "External Interface Files": 0
-  }
+  funUnits = [
+    getInput("External Inputs"),
+    getInput("External Outputs"),
+    getInput("External Inquiries"),
+    getInput("Internal Logical Files"),
+    getInput("External Interface Files"),
+  ]
+
+  funUnits = [55, 35, 10, 7 , 8]
 
 
   for i in range(5):
@@ -26,8 +28,8 @@ def main(userPoint, weight):
   
 
 
-def getInput():
-  return int(input("Enter "))
+def getInput(inputDetails):
+  return int(input(f"Enter {inputDetails}"))
 
 
 def simpleUAP():
