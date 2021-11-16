@@ -12,15 +12,33 @@ def main(userPoint, weight):
       "High": [6, 7, 6, 15, 10],
   }
 
-  funUnits = [
-    getInput("External Inputs"),
-    getInput("External Outputs"),
-    getInput("External Inquiries"),
-    getInput("Internal Logical Files"),
-    getInput("External Interface Files"),
-  ]
+  # funUnits = [
+  #   getInput("External Inputs"),
+  #   getInput("External Outputs"),
+  #   getInput("External Inquiries"),
+  #   getInput("Internal Logical Files"),
+  #   getInput("External Interface Files"),
+  # ]
 
   funUnits = [55, 35, 10, 7 , 8]
+
+    # // 14 factors
+    # string aspects[14] = {
+    #     "reliable backup and recovery required ?",
+    #     "data communication required ?",
+    #     "are there distributed processing functions ?",
+    #     "is performance critical ?",
+    #     "will the system run in an existing heavily utilized operational environment ?",
+    #     "on line data entry required ?",
+    #     "does the on line data entry require the input transaction to be built over multiple screens or operations ?",
+    #     "are the master files updated on line ?",
+    #     "is the inputs, outputs, files or inquiries complex ?",
+    #     "is the internal processing complex ?",
+    #     "is the code designed to be reusable ?",
+    #     "are the conversion and installation included in the design ?",
+    #     "is the system designed for multiple installations in different organizations ?",
+    #     "is the application designed to facilitate change and ease of use by the user ?"
+    # };
 
 
   for i in range(5):
