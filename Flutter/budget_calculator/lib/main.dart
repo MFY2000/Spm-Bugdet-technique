@@ -1,5 +1,6 @@
 import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Pages/COCOMO.dart';
+import 'package:budget_calculator/Pages/FunctionalPoint.dart';
 import 'package:flutter/material.dart';
 
 import 'Pages/SLIM.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Software Project Management'),
+      home: const FunctionalPoint(),
     );
   }
 }
