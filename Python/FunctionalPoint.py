@@ -1,8 +1,8 @@
 
 
-def main(userPoint, weight):
+def main(weight):
   # Weight Rates
-  UAP = 0
+  UFP = 0
   CAP = 0
   F=0
   # Weight Factors
@@ -12,7 +12,10 @@ def main(userPoint, weight):
       "High": [6, 7, 6, 15, 10],
   }
 
-  # funUnits = [
+  userPoint = [55, 35, 10, 7 , 8]
+  weight = 1
+
+  # userPoint = [
   #   getInput("External Inputs"),
   #   getInput("External Outputs"),
   #   getInput("External Inquiries"),
@@ -20,41 +23,48 @@ def main(userPoint, weight):
   #   getInput("External Interface Files"),
   # ]
 
-  funUnits = [55, 35, 10, 7 , 8]
 
-    # // 14 factors
-    # string aspects[14] = {
-    #     "reliable backup and recovery required ?",
-    #     "data communication required ?",
-    #     "are there distributed processing functions ?",
-    #     "is performance critical ?",
-    #     "will the system run in an existing heavily utilized operational environment ?",
-    #     "on line data entry required ?",
-    #     "does the on line data entry require the input transaction to be built over multiple screens or operations ?",
-    #     "are the master files updated on line ?",
-    #     "is the inputs, outputs, files or inquiries complex ?",
-    #     "is the internal processing complex ?",
-    #     "is the code designed to be reusable ?",
-    #     "are the conversion and installation included in the design ?",
-    #     "is the system designed for multiple installations in different organizations ?",
-    #     "is the application designed to facilitate change and ease of use by the user ?"
-    # };
+  fac_rate = [3]
+  scale = [14]
 
-
-  for i in range(5):
-    UAP += (wtFactors[i][weight] * userPoint[i])
+  for i in range(len(fac_rate)):
+    F += factors(fac_rate[i], scale[i])
   
+  CAF = getCAF(F)
+  UCP =  simpleUFP(wtFactors, userPoint, weight)
+  
+  FP = CAP * UCP
 
+
+  print("Function Point Analysis :-" )
+  print("Unadjusted Function Points (UFP) : ", UFP )
+  print("Complexity Adjustment Factor (CAF) : ", CAF )
+  print("Function Points (FP) : ", FP )
+
+
+  
+def getCAF(F):
+  return (0.65 + (0.01 * F))
+
+def factors(fac_rate, count):
+  return (fac_rate * count)
+
+def simpleUFP(wtFactors, userPoint, weight):
+  UFP = 0
+  for i in range(5):
+    UFP += (wtFactors[i][weight] * userPoint[i])
+  
+  return UFP
 
 def getInput(inputDetails):
   return int(input(f"Enter {inputDetails}"))
 
 
-def simpleUAP():
-  print("")
+    
 
 
-def complexUAP():
+
+def complexUFP():
   print("")
 
 
