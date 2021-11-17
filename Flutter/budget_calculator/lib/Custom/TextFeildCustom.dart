@@ -6,13 +6,18 @@ class TextFeildCustom extends StatelessWidget {
   final double width_;
   final TextEditingController taskInput;
   final String inputLabel;
+  late bool isValid = false;
 
-  const TextFeildCustom(
+  TextFeildCustom(
       {Key? key,
       required this.width_,
       required this.taskInput,
-      required this.inputLabel})
+      required this.inputLabel,
+      required this.isValid,
+      })
       : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +26,10 @@ class TextFeildCustom extends StatelessWidget {
       width: (MediaQuery.of(context).size.width) * width_,
       child: TextField(
         controller: taskInput,
-        onChanged: (String value)=>{
-
-          // if(int.parse(value)){
-            
-          // }
-        },
-
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
+          errorText: isValid ? "Please ${inputLabel}": null,
           labelText: inputLabel,
         ),
       ),
