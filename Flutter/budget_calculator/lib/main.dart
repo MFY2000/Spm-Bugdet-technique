@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FunctionalPoint(),
+      home: const MyHomePage(title: "Software Project Management"),
     );
   }
 }
@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late int _counter = 0;
-  late List<String> lstMethods = [".....", "Slim", "COCOMO"];
+  late List<String> lstMethods = [".....", "Slim", "COCOMO", "Functional Point"];
   var widht, height;
 
   void onSelctionIn(String value) {
@@ -94,13 +94,21 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget calculator() {
     Widget toReturn;
 
-    if (_counter == 1) {
-      toReturn = const SLIMCalculator();
-    } else if (_counter == 2) {
-      toReturn = const CocomoCalculator();
-    } else {
-      toReturn = Container();
+    switch (_counter) {
+      case 1:
+        toReturn = const SLIMCalculator();
+        break;
+      case 2:
+        toReturn = const CocomoCalculator();
+        break;
+      case 3:
+        toReturn = const FunctionalPoint();
+        break;
+      default:
+        toReturn = FunctionalPoint(); //Container();
+
     }
+
 
     return toReturn;
   }
