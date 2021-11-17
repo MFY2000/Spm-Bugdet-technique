@@ -28,6 +28,7 @@ class _DropDownLstState extends State<DropDownLst> {
   Widget build(BuildContext context) {
   
     return DropdownButton<String>(
+      elevation: 8,
       value: dropdownValue,
       icon: const Padding(
         padding: EdgeInsets.only(left: 10),
@@ -43,7 +44,7 @@ class _DropDownLstState extends State<DropDownLst> {
       items: widget.lstMethods.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(value, style: TextStyle(fontWeight: FontWeight.bold),),
         );
       }).toList(),
     );
