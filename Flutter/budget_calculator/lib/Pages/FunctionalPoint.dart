@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:budget_calculator/Custom/TextFeildCustom.dart';
 import 'package:flutter/material.dart';
 
 class FunctionalPoint extends StatefulWidget {
@@ -13,22 +14,41 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: EdgeInsets.only(left: 40),
-          alignment: Alignment.centerLeft,
-          child: const Text(
-            'Functional Point',
-            style: TextStyle(
-                fontSize: 21, fontWeight: FontWeight.bold, color: Colors.teal),
-          ),
-        ),
-        
-
-
-      ],
-    ));
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  'Functional Point',
+                  style: TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 150,
+                      child: TextFeildCustom(
+                        width_: 0.75,
+                        taskInput: TextEditingController(),
+                        inputLabel: "Enter User Input",
+                      ),
+                    ),
+                    Container(
+                      width: 150,
+                      child: TextFormField(
+                          decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Enter your username',
+                      )),
+                    ),
+                  ],
+                )
+              ],
+            )));
   }
 }
