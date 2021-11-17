@@ -28,7 +28,7 @@ class _CocomoCalculatorState extends State<CocomoCalculator> {
           padding: EdgeInsets.only(left: 40),
           alignment: Alignment.centerLeft,
           child: const Text(
-            'SLIM',
+            'COCOMO',
             style: TextStyle(
                 fontSize: 21, fontWeight: FontWeight.bold, color: Colors.teal),
           ),
