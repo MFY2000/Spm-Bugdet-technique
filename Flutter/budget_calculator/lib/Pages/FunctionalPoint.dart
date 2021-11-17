@@ -14,24 +14,20 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          color: Colors.amberAccent,
-          child: GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            children: List.generate(2, (index) {
-              return Container(
-                width: 40,
-                color: Colors.red,
-                child: Text(
-                  'Item $index',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-              );
-            }),
+          padding: EdgeInsets.only(left: 40),
+          alignment: Alignment.centerLeft,
+          child: const Text(
+            'Functional Point',
+            style: TextStyle(
+                fontSize: 21, fontWeight: FontWeight.bold, color: Colors.teal),
           ),
-        )
+        ),
+        
+
+
       ],
     ));
   }
