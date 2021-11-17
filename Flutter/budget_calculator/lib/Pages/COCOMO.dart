@@ -36,7 +36,7 @@ class _CocomoCalculatorState extends State<CocomoCalculator> {
         TextFeildCustom(
           width_: 0.75,
           taskInput: inputTextKLOC,
-          inputLabel: "Enter the value of LOC",
+          inputLabel: "Enter the value of LOC", isValid: false,
         ),
         TextButton(
             onPressed: () => {calculateSlim()},
