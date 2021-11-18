@@ -13,7 +13,7 @@ class FunctionalPoint extends StatefulWidget {
   late bool error;
   late List<List<int>> lstScale = [];
   late List<List<int>> lstweight = [];
-  
+
   @override
   _FunctionalPointState createState() => _FunctionalPointState();
 }
@@ -22,17 +22,27 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   List<Functional> userInput = [];
   List<String> weightfactors = [];
   List<String> weightScale = [];
-  
+
   int scaleLft = 14;
-  int dividedScale = 0 ,weightSelection = 0, facotreSelection = 0;
+  int dividedScale = 0, weightSelection = 0, facotreSelection = 0;
+
+  String toReturn = "";
 
   @override
   void initState() {
     // TODO: implement initState
     userInput = inputControllerFP;
     weightfactors = ["....", "High", "Average ", "Low"];
-    weightScale = ["....",    "No influence",    "Incidental",    "Moderate",    "Average",    "Significant",    "Essential" ];
-  
+    weightScale = [
+      "....",
+      "No influence",
+      "Incidental",
+      "Moderate",
+      "Average",
+      "Significant",
+      "Essential"
+    ];
+
     weightSelection = 0;
     facotreSelection = 0;
 
@@ -117,7 +127,8 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                             color: Colors.teal),
                       ),
                     ),
-                    DropDownLst(lstMethods: weightScale, onSelect: factoreSelect),
+                    DropDownLst(
+                        lstMethods: weightScale, onSelect: factoreSelect),
                     IconButton(
                         onPressed: () => {},
                         icon: const Icon(
@@ -144,62 +155,117 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                           borderRadius:
                               BorderRadius.all(Radius.circular(15.0))),
                     )),
+
+                    toReturn.isNotEmpty ? getResult() : Container(),
+
               ],
             )));
   }
 
   calculate() {
-    if(validation()){
-  // 
-    int factor;
-    double CAF, UCP; 
-    double functionalPoint;
-  // 
+    if (validation()) {
+      //
+      int factor;
+      double CAF, UCP;
+      double functionalPoint;
 
-    factor = calculateFactor();
-    CAF = calculateCAF(factor);
-    
-    UCP = calculateUCP();   
+      toReturn = "";
+      //
 
-    functionalPoint = CAF * UCP;
+      factor = calculateFactor();
+      CAF = calculateCAF(factor);
 
+      UCP = calculateUCP();
+
+      functionalPoint = CAF * UCP;
     }
   }
 
-  calculateFactor(){
-    Map<String, dynamic> toReturn = {}; 
+  calculateFactor() {
     int ans = (scaleLft * facotreSelection);
 
-    String step = "F = scale * facotreSelected";
-    step += "\n";
-    step += "F = $scaleLft * $facotreSelection";
-    step += "\n";
-    step += "F = $ans";
-    step += "\n";
+    toReturn += "F = scale * facotreSelected";
+    toReturn += "\n";
+    toReturn += "F = $scaleLft * $facotreSelection";
+    toReturn += "\n";
+    toReturn += "F = $ans";
+    toReturn += "\n";
 
-    toReturn.putIfAbsent("Answer", () => ans);
-    toReturn.putIfAbsent("Steps", () => step);
-
-    return toReturn;
+    return ans;
   }
 
-  calculateCAF(int factor){
-    return (0.65 + (0.01 * factor));
+  calculateCAF(int factor) {
+    double ans = 0.65 + (0.01 * factor);
+    
+    toReturn += "\n";
+    toReturn += "CAF = 0.65 + (0.01 * factor)";
+    toReturn += "\n";
+    toReturn += "C = 0.65 + (0.01 * $factor)";
+    toReturn += "\n";
+    toReturn += "C = $ans";
+    toReturn += "\n";
+
+    return ans;
   }
 
-  calculateUCP(){
+  calculateUCP() {
     int UFP = 0;
+    String ufpCalculation = "";
+    toReturn += "\n";
+    toReturn += "UFP = ";
+
     var weight = wtFactors[weightSelection];
     for (var i = 0; i < userInput.length; i++) {
-      UFP +=  weight![i] * userInput[i].getData();
+      toReturn += "";
+      UFP += weight![i] * userInput[i].getData();
+      ufpCalculation += "${weight[i]} * ${userInput[i].getData()}";
     }
+
+    toReturn += ufpCalculation;
+    toReturn += "\n";
+    toReturn += "$UFP";
   }
-  
 
   getResult() {
-    return Contain(resultToString: "");
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 400,
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: const Color.fromARGB(255, 51, 204, 255), width: 1),
+            borderRadius: BorderRadius.circular(5),
+            shape: BoxShape.rectangle,
+          ),
+          child: Text(
+            toReturn,
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 15,
+            // ignore: prefer_const_constructors
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+        Positioned(
+            left: 50,
+            top: 12,
+            child: Container(
+              padding: EdgeInsets.only(bottom: 10),
+              color: Colors.white,
+              child: const Text(
+                'Solution',
+                style: TextStyle(color: Colors.black, fontSize: 16),
+              ),
+            )),
+      ],
+    );
   }
-
 
   void weightSelect(value) {
     for (var i = 0; i < weightfactors.length; i++) {
@@ -229,19 +295,18 @@ class _FunctionalPointState extends State<FunctionalPoint> {
           widget.error = true;
           item.changeState();
         });
-          return false;
+        return false;
       }
     }
 
     if (facotreSelection == 0) {
       if (weightSelection == 0) {
         print("pls select");
-          return false;
+        return false;
       }
-          return false;
+      return false;
     }
 
     return true;
   }
-
 }
