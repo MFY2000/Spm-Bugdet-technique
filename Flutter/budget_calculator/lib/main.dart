@@ -1,6 +1,7 @@
 import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Pages/COCOMO.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/FunctionalPoint.dart';
+import 'package:budget_calculator/Pages/UseCasePoint/UCP.dart';
 import 'package:flutter/material.dart';
 
 import 'Pages/SLIM.dart';
@@ -36,7 +37,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late int _counter = 0;
-  late List<String> lstMethods = [".....", "Slim", "COCOMO", "Functional Point"];
+  late List<String> lstMethods = [".....", "Slim", "COCOMO", "Functional Point", "Use Case Point"];
   var widht, height;
 
   void onSelctionIn(String value) {
@@ -104,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
         toReturn = FunctionalPoint();
         break;
       default:
-        toReturn = FunctionalPoint(); //Container();
+        toReturn = const UseCasePoint(); //Container();
 
     }
 
