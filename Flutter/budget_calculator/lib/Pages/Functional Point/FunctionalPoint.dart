@@ -37,6 +37,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                   ),
                 ),
                 const UserPoint(),
+
                 const SizedBox(
                   height: 10,
                 ),
@@ -45,6 +46,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                   thickness: 2,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(right: 30),
@@ -56,14 +58,70 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                             color: Colors.teal),
                       ),
                     ),
-                    Expanded(
-                      child: DropDownLst(
-                          lstMethods: weightfactors, onSelect: (String) => {}),
-                    ),
+                    DropDownLst(
+                        lstMethods: weightfactors, onSelect: (String) => {}),
+                    IconButton(
+                        onPressed: () => {},
+                        icon: const Icon(
+                          Icons.dashboard_customize_outlined,
+                          size: 22,
+                        ))
                   ],
+                ),
 
+                //  onbuttonclick
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: [],
+                  ),
+                ),
 
-                )
+                const Divider(
+                  color: Colors.grey,
+                  thickness: 2,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Text(
+                        "CAF ()",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal),
+                      ),
+                    ),
+                    DropDownLst(
+                        lstMethods: weightfactors, onSelect: (String) => {}),
+                    IconButton(
+                        onPressed: () => {},
+                        icon: const Icon(
+                          Icons.dashboard_customize_outlined,
+                          size: 22,
+                        ))
+                  ],
+                ),
+                TextButton(
+                    onPressed: () => {},
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * .0125),
+                      width: MediaQuery.of(context).size.width * .75,
+                      height: MediaQuery.of(context).size.height * .05,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "Calculate",
+                        style: TextStyle(fontSize: 15, color: Colors.white),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.blue[600],
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(15.0))),
+                    )),
               ],
             )));
   }
