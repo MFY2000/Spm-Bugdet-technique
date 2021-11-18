@@ -1,8 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:budget_calculator/Custom/Contain.dart';
 import 'package:budget_calculator/Custom/DropDown.dart';
-import 'package:budget_calculator/Custom/TextFeildCustom.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/UserPoints.dart';
 import 'package:flutter/material.dart';
@@ -178,6 +176,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       UCP = calculateUCP();
 
       functionalPoint = CAF * UCP;
+
+      toReturn += "FP = CAF * UFP";
+      toReturn += "\n";
+      toReturn += "FP = $functionalPoint";
     }
   }
 
@@ -214,16 +216,25 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     toReturn += "\n";
     toReturn += "UFP = ";
 
+    String temp = "";
+
     var weight = wtFactors[weightSelection];
     for (var i = 0; i < userInput.length; i++) {
-      toReturn += "";
-      UFP += weight![i] * userInput[i].getData();
-      ufpCalculation += "${weight[i]} * ${userInput[i].getData()}";
+
+      temp = i < (userInput.length-1) ? "+": "";
+      
+      toReturn += "(weightSelected * ${userInput[i].display}) temp ";
+      UFP += weight[i] * userInput[i].getData();
+      ufpCalculation += "(${weight[i]} * ${userInput[i].getData()}) (${temp}) ";
     }
 
-    toReturn += ufpCalculation;
     toReturn += "\n";
-    toReturn += "$UFP";
+    toReturn += "UFP = $ufpCalculation";
+    toReturn += "\n";
+    toReturn += "UFP = $UFP";
+    toReturn += "\n";
+
+    return UFP;
   }
 
   getResult() {
