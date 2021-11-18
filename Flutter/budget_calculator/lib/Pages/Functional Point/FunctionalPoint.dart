@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:budget_calculator/Custom/DropDown.dart';
-import 'package:budget_calculator/Pages/Functional%20Point/Model/FunctionalModel.dart';
+import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/UserPoints.dart';
 import 'package:flutter/material.dart';
 
