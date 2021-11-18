@@ -8,16 +8,13 @@ class TextFeildCustom extends StatelessWidget {
   final String inputLabel;
   late bool isValid = false;
 
-  TextFeildCustom(
-      {Key? key,
-      required this.width_,
-      required this.taskInput,
-      required this.inputLabel,
-      required this.isValid,
-      })
-      : super(key: key);
-
-  
+  TextFeildCustom({
+    Key? key,
+    required this.width_,
+    required this.taskInput,
+    required this.inputLabel,
+    required this.isValid,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +24,13 @@ class TextFeildCustom extends StatelessWidget {
       child: TextField(
         controller: taskInput,
         keyboardType: TextInputType.number,
+        onChanged: (value) => {
+          if(isValid)
+              isValid = value.isEmpty
+        },
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          errorText: isValid ? "Please ${inputLabel}": null,
+          errorText: isValid ? "Please ${inputLabel}" : null,
           labelText: inputLabel,
         ),
       ),
