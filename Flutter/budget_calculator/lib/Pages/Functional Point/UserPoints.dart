@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:budget_calculator/Custom/TextFeildCustom.dart';
-import 'package:budget_calculator/Pages/Functional%20Point/Model/FunctionalModel.dart';
+import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:flutter/material.dart';
 
 class UserPoint extends StatefulWidget {
@@ -13,9 +13,12 @@ class UserPoint extends StatefulWidget {
 
 class _UserPointState extends State<UserPoint> {
   var userInput = inputControllerFP;
+  double width = 0.0;
 
   @override
   Widget build(BuildContext context) {
+    width = (MediaQuery.of(context).size.width);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -24,7 +27,7 @@ class _UserPointState extends State<UserPoint> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: 155,
+              width: width * .40,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[0].control,
@@ -33,7 +36,7 @@ class _UserPointState extends State<UserPoint> {
               ),
             ),
             SizedBox(
-              width: 155,
+              width: width * .40,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[1].control,
@@ -47,7 +50,7 @@ class _UserPointState extends State<UserPoint> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: 155,
+              width: width * .40,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[2].control,
@@ -56,7 +59,7 @@ class _UserPointState extends State<UserPoint> {
               ),
             ),
             SizedBox(
-              width: 155,
+              width: width * .40,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[3].control,
@@ -70,7 +73,7 @@ class _UserPointState extends State<UserPoint> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: 155,
+              width: width * .40,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[4].control,
