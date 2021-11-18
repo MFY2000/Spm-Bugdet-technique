@@ -14,14 +14,12 @@ class Contain extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-
-          width: double.infinity,
           height: 200,
-          margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-          padding: EdgeInsets.all(20),
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             border:
-                Border.all(color: Color.fromARGB(255, 51, 204, 255), width: 1),
+                Border.all(color: const Color.fromARGB(255, 51, 204, 255), width: 1),
             borderRadius: BorderRadius.circular(5),
             shape: BoxShape.rectangle,
           ),
@@ -43,7 +41,7 @@ class Contain extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(bottom: 10),
               color: Colors.white,
-              child: Text(
+              child: const Text(
                 'Solution',
                 style: TextStyle(color: Colors.black, fontSize: 16),
               ),
