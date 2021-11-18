@@ -104,6 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 3:
         toReturn = FunctionalPoint();
         break;
+      case 4:
+        toReturn = const UseCasePoint();
+        break;
       default:
         toReturn = const UseCasePoint(); //Container();
 
