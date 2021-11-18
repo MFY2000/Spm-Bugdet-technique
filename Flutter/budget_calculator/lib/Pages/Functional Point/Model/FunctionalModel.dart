@@ -30,8 +30,8 @@ List<Functional> inputControllerFP = [
   Functional(display: "Enter External Interface", isValid: false),
 ];
 
-Map<String, List<int>> wtFactors = {
-  "Low": [3, 4, 3, 7, 5],
-  "Average": [4, 5, 4, 10, 7],
-  "High": [6, 7, 6, 15, 10],
-};
+List<List<int>> wtFactors = [
+  [3, 4, 3, 7, 5],
+  [4, 5, 4, 10, 7],
+  [6, 7, 6, 15, 10],
+];
