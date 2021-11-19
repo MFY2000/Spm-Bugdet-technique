@@ -27,7 +27,7 @@ class _UserPointState extends State<UserPoint> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: width * .40,
+              width: width * .35,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[0].control,
@@ -36,7 +36,7 @@ class _UserPointState extends State<UserPoint> {
               ),
             ),
             SizedBox(
-              width: width * .40,
+              width: width * .35,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[1].control,
@@ -50,7 +50,7 @@ class _UserPointState extends State<UserPoint> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: width * .40,
+              width: width * .35,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[2].control,
@@ -59,7 +59,7 @@ class _UserPointState extends State<UserPoint> {
               ),
             ),
             SizedBox(
-              width: width * .40,
+              width: width * .35,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[3].control,
@@ -73,7 +73,7 @@ class _UserPointState extends State<UserPoint> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: width * .40,
+              width: width * .35,
               child: TextFeildCustom(
                 width_: 0.75,
                 taskInput: userInput[4].control,

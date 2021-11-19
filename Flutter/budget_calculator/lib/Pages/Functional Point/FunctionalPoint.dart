@@ -24,7 +24,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   int scaleLft = 14;
   int dividedScale = 0, weightSelection = 0, facotreSelection = 0;
 
+
   String toReturn = "";
+
+  int onCalculate = 0;
 
   @override
   void initState() {
@@ -154,13 +157,19 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                               BorderRadius.all(Radius.circular(15.0))),
                     )),
 
-                    toReturn.isNotEmpty ? getResult() : Container(),
+                    onCalculate == 0 ? 
+                      Container():
+                      (onCalculate == 1 ? const CircularProgressIndicator(): getResult()),
 
               ],
             )));
   }
 
   calculate() {
+    setState(() {
+      onCalculate = 1;
+    });
+
     if (validation()) {
       //
       int factor;
@@ -176,10 +185,15 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       UCP = calculateUCP();
 
       functionalPoint = CAF * UCP;
-
+    
+      toReturn += "\n";
       toReturn += "FP = CAF * UFP";
       toReturn += "\n";
       toReturn += "FP = $functionalPoint";
+
+      setState(() {
+        onCalculate = 2;
+      });
     }
   }
 
@@ -214,7 +228,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     int UFP = 0;
     String ufpCalculation = "";
     toReturn += "\n";
-    toReturn += "UFP = ";
+    toReturn += "UFP = (UI * EI)+(UO * EO)+(UQ * EQ)+(ELF * ILF)+(UIF * EIF)";
 
     String temp = "";
 
@@ -223,9 +237,8 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
       temp = i < (userInput.length-1) ? "+": "";
       
-      toReturn += "(weightSelected * ${userInput[i].display}) temp ";
       UFP += weight[i] * userInput[i].getData();
-      ufpCalculation += "(${weight[i]} * ${userInput[i].getData()}) (${temp}) ";
+      ufpCalculation += "(${weight[i]} * ${userInput[i].getData()}) $temp ";
     }
 
     toReturn += "\n";
@@ -282,8 +295,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightfactors.length; i++) {
       if (weightfactors[i] == value) {
         setState(() {
-          weightSelection = i;
-          // widget.lstweight[dividedScale] = [i];
+          weightSelection = i-1;
         });
       }
     }
@@ -293,7 +305,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightScale.length; i++) {
       if (weightScale[i] == value) {
         setState(() {
-          facotreSelection = i;
+          facotreSelection = i-1;
         });
       }
     }

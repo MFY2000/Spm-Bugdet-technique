@@ -31,7 +31,7 @@ List<Functional> inputControllerFP = [
 ];
 
 List<List<int>> wtFactors = [
-  [3, 4, 3, 7, 5],
-  [4, 5, 4, 10, 7],
   [6, 7, 6, 15, 10],
+  [4, 5, 4, 10, 7],
+  [3, 4, 3, 7, 5],
 ];
