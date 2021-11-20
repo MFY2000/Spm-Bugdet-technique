@@ -21,7 +21,7 @@ class UserInput extends StatefulWidget {
 class _UserInputState extends State<UserInput> {
   double width = 0.0;
   double answer = 0.0;
-
+  late List<UseCaseModel> lstInput = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _UserInputState extends State<UserInput> {
     String toReturn = "";
     String temp= "";
     for (var i = 0; i < widget.noOfChild; i++) {
-      temp = i < (widget.noOfChild-1) ? "+": "";
+      temp = i < (widget.noOfChild - 1) ? "+": "";
       toReturn += "(${widget.lstWeight[i]} * ${widget.userValueEnter[i]}) $temp";
       answer += widget.lstWeight[i] * widget.userValueEnter[i]; 
     }
@@ -68,15 +68,14 @@ class _UserInputState extends State<UserInput> {
     List<Widget> toReturnLst = [];
 
     for (int i = 0; i < widget.noOfChild; i++) {
-
-      UseCaseModel temp = UseCaseModel(display: inputControllerUCP[i]);
+      lstInput.add(UseCaseModel(display: inputControllerUCP[i]));
 
       toReturnLst.add(SizedBox(
         width: width * .25,
         child: TextInput(
-            taskInput: temp.control,
-            inputLabel: temp.display,
-            isValid: temp.isValid,
+            taskInput: lstInput[i].control,
+            inputLabel: lstInput[i].display,
+            isValid: lstInput[i].isValid,
             onChange: onchangeValue,
             index: i),
       ));
