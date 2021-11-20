@@ -13,9 +13,5 @@ class UseCaseModel{
 }
 
 
-List<UseCaseModel> inputControllerUCP = [
-  UseCaseModel(display: "Simple"),
-  UseCaseModel(display: "Average"),
-  UseCaseModel(display: "complex"),
-];
+List<String> inputControllerUCP = ["Simple",  "Average",  "complex"];
 
