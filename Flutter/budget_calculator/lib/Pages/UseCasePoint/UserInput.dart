@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 class UserInput extends StatefulWidget {
   final int noOfChild;
   final List<int> lstWeight;
+  final int index;
   final Function(String toReturn, int index, double answer) onchange;
   
-  UserInput({Key? key, required this.noOfChild, required this.lstWeight, required this.onchange})
+  UserInput({Key? key, required this.noOfChild, required this.lstWeight, required this.onchange, required this.index})
       : super(key: key);
 
   late List<int> userValueEnter = [0, 0, 0];
@@ -50,10 +51,16 @@ class _UserInputState extends State<UserInput> {
 
   double getAnswer(){
     double answer = 0;
+    String toReturn = "";
+    String temp= "";
     for (var i = 0; i < widget.noOfChild; i++) {
+      temp = i < (widget.noOfChild-1) ? "+": "";
+      toReturn += "(${widget.lstWeight[i]} * ${widget.userValueEnter[i]}) $temp";
       answer += widget.lstWeight[i] * widget.userValueEnter[i]; 
     }
 
+    toReturn += "\n";
+    widget.onchange(toReturn, widget.index, answer);
     return answer;
   }
 
