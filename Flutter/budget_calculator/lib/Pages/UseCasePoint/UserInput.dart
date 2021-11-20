@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 class UserInput extends StatefulWidget {
   final int noOfChild;
   final List<int> lstWeight;
-  const UserInput({Key? key, required this.noOfChild, required this.lstWeight})
+  final Function(String toReturn, int index, double answer) onchange;
+  
+  UserInput({Key? key, required this.noOfChild, required this.lstWeight, required this.onchange})
       : super(key: key);
+
+  late List<int> userValueEnter = [0, 0, 0];
 
   @override
   _UserInputState createState() => _UserInputState();
@@ -15,30 +19,57 @@ class UserInput extends StatefulWidget {
 
 class _UserInputState extends State<UserInput> {
   double width = 0.0;
+  double answer = 0.0;
+
 
   @override
   Widget build(BuildContext context) {
     width = (MediaQuery.of(context).size.width);
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Row(
-          children: [],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: getTextFeild(),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            ' = ${getAnswer()}',
+            style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black),
+          ),
         ),
       ],
     );
+  }
+
+  double getAnswer(){
+    double answer = 0;
+    for (var i = 0; i < widget.noOfChild; i++) {
+      answer += widget.lstWeight[i] * widget.userValueEnter[i]; 
+    }
+
+    return answer;
   }
 
   List<Widget> getTextFeild() {
     List<Widget> toReturnLst = [];
 
     for (int i = 0; i < widget.noOfChild; i++) {
+
+      UseCaseModel temp = UseCaseModel(display: inputControllerUCP[i]);
+
       toReturnLst.add(SizedBox(
-        width: width * .40,
+        width: width * .25,
         child: TextInput(
-            taskInput: inputControllerUCP[i].control,
-            inputLabel: inputControllerUCP[i].display,
-            isValid: inputControllerUCP[i].isValid,
+            taskInput: temp.control,
+            inputLabel: temp.display,
+            isValid: temp.isValid,
             onChange: onchangeValue,
             index: i),
       ));
@@ -47,8 +78,10 @@ class _UserInputState extends State<UserInput> {
     return toReturnLst;
   }
 
-  void onchangeValue(int value) {
-    
+  void onchangeValue(int index, String value) {
+    setState(() {
+      widget.userValueEnter[index] = int.parse(value);
+    });
   }
 }
 
@@ -56,7 +89,7 @@ class TextInput extends StatefulWidget {
   final TextEditingController taskInput;
   bool isValid;
   final String inputLabel;
-  final void Function(int value) onChange;
+  final void Function(int index, String value) onChange;
   final int index;
 
   TextInput(
@@ -79,10 +112,8 @@ class _TextInputState extends State<TextInput> {
       controller: widget.taskInput,
       keyboardType: TextInputType.number,
       onChanged: (value) => {
-        if(widget.isValid)
-          widget.isValid = false,
-
-        widget.onChange(widget.index)
+        if (widget.isValid) widget.isValid = false,
+        widget.onChange(widget.index, value)
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(),
