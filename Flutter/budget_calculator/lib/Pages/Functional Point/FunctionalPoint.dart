@@ -2,6 +2,7 @@
 
 import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
+import 'package:budget_calculator/Pages/Functional%20Point/ScaleFactor.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/UserPoints.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,8 @@ class FunctionalPoint extends StatefulWidget {
   FunctionalPoint({Key? key}) : super(key: key);
 
   late bool error;
-  late List<List<int>> lstScale = [];
-  late List<List<int>> lstweight = [];
+  late Map<String, List<int>> multipleScale = {};
+  late Map<String, List<int>> multipleweight = {};
 
   @override
   _FunctionalPointState createState() => _FunctionalPointState();
@@ -26,6 +27,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
 
   String toReturn = "";
+  
+  late int factor;
+  late double CAF, UCP;
+  late double functionalPoint;
 
   int onCalculate = 0;
 
@@ -101,14 +106,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
-
-                //  onbuttonclick
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
-                  child: Column(
-                    children: [],
-                  ),
-                ),
+                
 
                 const Divider(
                   color: Colors.grey,
@@ -138,6 +136,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
+                ScaleFactor(weightfactors: weightScale,),
 
                 TextButton(
                     onPressed: calculate,
@@ -172,9 +171,6 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
     if (validation()) {
       //
-      int factor;
-      double CAF, UCP;
-      double functionalPoint;
 
       toReturn = "";
       //
@@ -324,7 +320,6 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
     if (facotreSelection == 0) {
       if (weightSelection == 0) {
-        print("pls select");
         return false;
       }
       return false;
