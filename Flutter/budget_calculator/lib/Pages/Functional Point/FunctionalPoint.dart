@@ -4,6 +4,7 @@ import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/ScaleFactor.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/UserPoints.dart';
+import 'package:budget_calculator/Pages/Functional%20Point/UserWeightFactor.dart';
 import 'package:flutter/material.dart';
 
 class FunctionalPoint extends StatefulWidget {
@@ -26,6 +27,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   String toReturn = "";
 
   late bool onPressScale = true;
+  late bool onPressWeight = true;
   late int factor;
   late double CAF, UCP;
   late double functionalPoint;
@@ -51,6 +53,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     facotreSelection = 0;
 
     onPressScale = true;
+    onPressWeight = true;
     super.initState();
   }
 
@@ -93,8 +96,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                             color: Colors.teal),
                       ),
                     ),
-                    DropDownLst(
-                        lstMethods: weightfactors, onSelect: weightSelect),
+                    onPressWeight
+                        ? DropDownLst(
+                            lstMethods: weightfactors, onSelect: weightSelect)
+                        : Container(),
                     IconButton(
                         onPressed: () => {},
                         icon: const Icon(
@@ -103,6 +108,15 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
+                // !onPressWeight
+                //     ? UserWeightFactor(
+                //         weightfactors: weightfactors,
+                //       )
+                //     : Container(),
+
+                UserWeightFactor(
+                        weightfactors: weightfactors,
+                      ),
                 const Divider(
                   color: Colors.grey,
                   thickness: 2,
@@ -172,10 +186,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     setState(() {
       onCalculate = 1;
     });
-    
+
     factor = calculateFactor();
     CAF = calculateCAF();
-    
+
     print(factor);
     print(toReturn);
 
@@ -204,25 +218,25 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     int ans = 0;
     toReturn += "F = scale * facotreSelected";
     toReturn += "\n";
-    
+
     if (onPressScale) {
       ans = (14 * facotreSelection);
       toReturn += "F = 14 * $facotreSelection";
-
-    }else{
+    } else {
       String temp;
       toReturn += "F = ";
       for (var i = 0; i < multipleScale.values.first.length; i++) {
         temp = i < multipleScale.values.first.length - 1 ? "+" : "";
         ans += (multipleScale["weight"]![i] * multipleScale["Scale"]![i]);
-        toReturn += "(${multipleScale["weight"]![i]} * ${multipleScale["Scale"]![i]}) $temp";
+        toReturn +=
+            "(${multipleScale["weight"]![i]} * ${multipleScale["Scale"]![i]}) $temp";
       }
     }
-      toReturn += "\n";
-      toReturn += "F = $ans";
-      toReturn += "\n";
+    toReturn += "\n";
+    toReturn += "F = $ans";
+    toReturn += "\n";
 
-      return ans;
+    return ans;
   }
 
   calculateCAF() {
