@@ -31,7 +31,6 @@ class _ScaleFactorState extends State<ScaleFactor> {
 
   @override
   Widget build(BuildContext context) {
-    print("$limitLeft > $multipleScale");
     return Column(
       children: getNoChildren(),
     );
