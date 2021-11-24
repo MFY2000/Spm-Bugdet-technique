@@ -136,7 +136,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                   ],
                 ),
 
-                ScaleFactor(weightfactors: weightScale,),
+                ScaleFactor(weightfactors: weightScale, limit: 14,),
 
                 TextButton(
                     onPressed: calculate,
