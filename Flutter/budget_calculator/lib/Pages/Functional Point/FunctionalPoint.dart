@@ -21,12 +21,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   List<String> weightfactors = [];
   List<String> weightScale = [];
 
-  int scaleLft = 14;
   int dividedScale = 0, weightSelection = 0, facotreSelection = 0;
-
 
   String toReturn = "";
   
+  late bool onPressScale = true;
   late int factor;
   late double CAF, UCP;
   late double functionalPoint;
@@ -51,7 +50,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     weightSelection = 0;
     facotreSelection = 0;
 
-    scaleLft = 14;
+    onPressScale = true;
     super.initState();
   }
 
@@ -115,20 +114,24 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 30),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 30),
                       child: Text(
-                        "CAF ($scaleLft)",
-                        style: const TextStyle(
+                        "CAF",
+                        style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.teal),
                       ),
                     ),
-                    DropDownLst(
-                        lstMethods: weightScale, onSelect: factoreSelect),
+                    onPressScale ? DropDownLst(
+                        lstMethods: weightScale, onSelect: factoreSelect): Container(),
                     IconButton(
-                        onPressed: () => {},
+                        onPressed: () => {
+                          setState(() {
+                            onPressScale = !onPressScale; 
+                          })
+                        },
                         icon: const Icon(
                           Icons.settings_suggest,
                           size: 22,
@@ -136,7 +139,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                   ],
                 ),
 
-                ScaleFactor(weightfactors: weightScale, limit: 14,),
+                !onPressScale ? ScaleFactor(weightfactors: weightScale, limit: 14,): Container(),
 
                 TextButton(
                     onPressed: calculate,
@@ -194,11 +197,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   calculateFactor() {
-    int ans = (scaleLft * facotreSelection);
+    int ans = (14 * facotreSelection);
 
     toReturn += "F = scale * facotreSelected";
     toReturn += "\n";
-    toReturn += "F = $scaleLft * $facotreSelection";
+    toReturn += "F = 14 * $facotreSelection";
     toReturn += "\n";
     toReturn += "F = $ans";
     toReturn += "\n";
