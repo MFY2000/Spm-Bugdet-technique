@@ -17,7 +17,7 @@ class Functional {
     return control.value.text.isEmpty;
   }
 
-  int getData(){
+  int getData() {
     return int.parse(control.value.text);
   }
 }
@@ -35,3 +35,8 @@ List<List<int>> wtFactors = [
   [4, 5, 4, 10, 7],
   [3, 4, 3, 7, 5],
 ];
+
+late Map<String, List<int>> multipleScale = {
+  "weight": [0],
+  "Scale": [0]
+};
