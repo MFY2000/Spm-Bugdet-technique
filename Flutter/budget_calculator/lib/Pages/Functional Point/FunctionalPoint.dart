@@ -24,7 +24,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   int dividedScale = 0, weightSelection = 0, facotreSelection = 0;
 
   String toReturn = "";
-  
+
   late bool onPressScale = true;
   late int factor;
   late double CAF, UCP;
@@ -73,7 +73,6 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                   ),
                 ),
                 const UserPoint(),
-
                 const SizedBox(
                   height: 10,
                 ),
@@ -104,43 +103,45 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
-                
-
                 const Divider(
                   color: Colors.grey,
                   thickness: 2,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 30),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 30),
                       child: Text(
-                        "CAF",
-                        style: TextStyle(
+                        "CAF (${onPressScale ? "Default" : "Dynamic"})",
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.teal),
                       ),
                     ),
-                    onPressScale ? DropDownLst(
-                        lstMethods: weightScale, onSelect: factoreSelect): Container(),
+                    onPressScale
+                        ? DropDownLst(
+                            lstMethods: weightScale, onSelect: factoreSelect)
+                        : Container(),
                     IconButton(
                         onPressed: () => {
-                          setState(() {
-                            onPressScale = !onPressScale; 
-                          })
-                        },
+                              setState(() {
+                                onPressScale = !onPressScale;
+                              })
+                            },
                         icon: const Icon(
                           Icons.settings_suggest,
                           size: 22,
                         ))
                   ],
                 ),
-
-                !onPressScale ? ScaleFactor(weightfactors: weightScale, limit: 14,): Container(),
-
+                !onPressScale
+                    ? ScaleFactor(
+                        weightfactors: weightScale,
+                        limit: 15,
+                      )
+                    : Container(),
                 TextButton(
                     onPressed: calculate,
                     child: Container(
@@ -158,11 +159,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                           borderRadius:
                               BorderRadius.all(Radius.circular(15.0))),
                     )),
-
-                    onCalculate == 0 ? 
-                      Container():
-                      (onCalculate == 1 ? const CircularProgressIndicator(): getResult()),
-
+                onCalculate == 0
+                    ? Container()
+                    : (onCalculate == 1
+                        ? const CircularProgressIndicator()
+                        : getResult()),
               ],
             )));
   }
@@ -171,20 +172,23 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     setState(() {
       onCalculate = 1;
     });
+    
+    factor = calculateFactor();
+    CAF = calculateCAF();
+    
+    print(factor);
+    print(toReturn);
 
     if (validation()) {
-      //
-
       toReturn = "";
-      //
 
       factor = calculateFactor();
-      CAF = calculateCAF(factor);
+      CAF = calculateCAF();
 
       UCP = calculateUCP();
 
       functionalPoint = CAF * UCP;
-    
+
       toReturn += "\n";
       toReturn += "FP = CAF * UFP";
       toReturn += "\n";
@@ -197,21 +201,33 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   calculateFactor() {
-    int ans = (14 * facotreSelection);
-
+    int ans = 0;
     toReturn += "F = scale * facotreSelected";
     toReturn += "\n";
-    toReturn += "F = 14 * $facotreSelection";
-    toReturn += "\n";
-    toReturn += "F = $ans";
-    toReturn += "\n";
+    
+    if (onPressScale) {
+      ans = (14 * facotreSelection);
+      toReturn += "F = 14 * $facotreSelection";
 
-    return ans;
+    }else{
+      String temp;
+      toReturn += "F = ";
+      for (var i = 0; i < multipleScale.values.first.length; i++) {
+        temp = i < multipleScale.values.first.length - 1 ? "+" : "";
+        ans += (multipleScale["weight"]![i] * multipleScale["Scale"]![i]);
+        toReturn += "(${multipleScale["weight"]![i]} * ${multipleScale["Scale"]![i]}) $temp";
+      }
+    }
+      toReturn += "\n";
+      toReturn += "F = $ans";
+      toReturn += "\n";
+
+      return ans;
   }
 
-  calculateCAF(int factor) {
+  calculateCAF() {
     double ans = 0.65 + (0.01 * factor);
-    
+
     toReturn += "\n";
     toReturn += "CAF = 0.65 + (0.01 * factor)";
     toReturn += "\n";
@@ -233,9 +249,8 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
     var weight = wtFactors[weightSelection];
     for (var i = 0; i < userInput.length; i++) {
+      temp = i < (userInput.length - 1) ? "+" : "";
 
-      temp = i < (userInput.length-1) ? "+": "";
-      
       UFP += weight[i] * userInput[i].getData();
       ufpCalculation += "(${weight[i]} * ${userInput[i].getData()}) $temp ";
     }
@@ -294,7 +309,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightfactors.length; i++) {
       if (weightfactors[i] == value) {
         setState(() {
-          weightSelection = i-1;
+          weightSelection = i - 1;
         });
       }
     }
@@ -304,7 +319,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightScale.length; i++) {
       if (weightScale[i] == value) {
         setState(() {
-          facotreSelection = i-1;
+          facotreSelection = i - 1;
         });
       }
     }
@@ -322,7 +337,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     }
 
     if (facotreSelection == 0) {
-      if (weightSelection == 0) {
+      if (weightSelection == 0 || onPressScale) {
         return false;
       }
       return false;
