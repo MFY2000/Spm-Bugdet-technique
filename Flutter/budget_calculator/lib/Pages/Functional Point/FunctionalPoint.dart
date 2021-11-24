@@ -10,7 +10,6 @@ class FunctionalPoint extends StatefulWidget {
   FunctionalPoint({Key? key}) : super(key: key);
 
   late bool error;
-  late Map<String, List<int>> multipleScale = {};
   late Map<String, List<int>> multipleweight = {};
 
   @override
@@ -136,6 +135,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
+
                 ScaleFactor(weightfactors: weightScale,),
 
                 TextButton(
