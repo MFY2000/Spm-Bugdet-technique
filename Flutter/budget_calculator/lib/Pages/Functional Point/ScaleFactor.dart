@@ -14,25 +14,50 @@ class ScaleFactor extends StatefulWidget {
 }
 
 class _ScaleFactorState extends State<ScaleFactor> {
+  late Map<String, List<int>> multipleScale = {"weight": [], "Scale": []};
+  late int noOfchild = 1;
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        NumericStepButton(
-          maxValue: 14,
-          minValue: 0,
-          onChanged: (index) {
-            print(index);
-          },
-        ),
-        DropDownLst(
-            lstMethods: widget.weightfactors,
-            onSelect: (index) {
-              print(index);
-            }),
-        ElevatedButton(onPressed: () {print("add new");}, child: const Text("Add"))
-      ],
+    print(multipleScale);
+    return Column(
+      children: getNoChildren(),
     );
+  }
+
+  getNoChildren() {
+    List<Widget> toRetun = [];
+
+    for (var i = 0; i < noOfchild; i++) {
+      toRetun.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          NumericStepButton(
+            maxValue: 14,
+            minValue: 0,
+            onChanged: (index) {
+              multipleScale["weight"]![i] = index;
+            },
+          ),
+          DropDownLst(
+              lstMethods: widget.weightfactors,
+              onSelect: (index) {
+                multipleScale["Scale"]![i] =
+                    widget.weightfactors.indexOf(index);
+              }),
+          ElevatedButton(
+              onPressed: () {
+                if (!(multipleScale["Scale"]![i].isNaN ||
+                    multipleScale["weight"]![i].isNaN)) {
+                  setState(() {
+                    noOfchild++;
+                  });
+                }
+              },
+              child: const Text("Add"))
+        ],
+      ));
+    }
+    return toRetun;
   }
 }
