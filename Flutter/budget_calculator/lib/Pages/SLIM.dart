@@ -36,17 +36,17 @@ class _SLIMCalculatorState extends State<SLIMCalculator> {
         TextFeildCustom(
           width_: 0.75,
           taskInput: inputTextLOC,
-          inputLabel: "Enter the value of LOC", isValid: false,
+          inputLabel: "Enter the value of LOC", isValid: false,onChange: (String ) {  },
         ),
         TextFeildCustom(
           width_: 0.75,
           taskInput: inputTextC,
-          inputLabel: "Enter the value of C (610 to 57314)", isValid: false,
+          inputLabel: "Enter the value of C (610 to 57314)", isValid: false,onChange: (String ) {  },
         ),
         TextFeildCustom(
           width_: 0.75,
           taskInput: inputTextT,
-          inputLabel: "Enter the value of t", isValid: false,
+          inputLabel: "Enter the value of t", isValid: false,onChange: (String ) {  },
         ),
         TextButton(
             onPressed: () => {calculateSlim()},
