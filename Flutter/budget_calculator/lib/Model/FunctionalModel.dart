@@ -3,14 +3,13 @@
 import 'package:flutter/cupertino.dart';
 
 class Functional {
-  int value = 0;
-  String display = "Enter";
+  late int value = 0;
+  late String display;
   TextEditingController control = TextEditingController();
   bool isValid = false;
 
   Functional(String value) {
     setDisplay(value);
-    control.text = "${this.value}";
   }
 
   void setDisplay(String value) {
@@ -26,7 +25,6 @@ class Functional {
   }
 
   int getData() {
-    value = int.parse(control.value.text);
     return value;
   }
 
@@ -46,6 +44,7 @@ List<String> inputStringFP = [
 List<Functional> inputControllerFP = [];
 
 List<List<int>> wtFactors = [
+  [],
   [6, 7, 6, 15, 10],
   [4, 5, 4, 10, 7],
   [3, 4, 3, 7, 5],
@@ -67,8 +66,8 @@ Map<String, List<int>> multipleScale = {
   "Scale": [0]
 };
 
-Map<String, List<int>> multipleWeight = {
-  "weight": [0],
-  "Type": [0],
-  "Limit": [0]
+Map<String, dynamic> multipleWeight = {
+  "weight": [],
+  "Type": [],
+  "Limit": []
 };
