@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:budget_calculator/Custom/DropDown.dart';
+import 'package:budget_calculator/Custom/PopupAlert.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/ScaleFactor.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/UserPoints.dart';
@@ -19,7 +20,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   late List<Functional> inputState;
 
   late int weightSelection, facotreSelection;
-  late double widht,height;
+  late double widht, height;
 
   late String toReturn;
 
@@ -42,16 +43,17 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     onPressScale = true;
     onPressWeight = true;
 
+    toReturn = "";
+
     inputState = widget.input;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     widht = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    
+
     return SingleChildScrollView(
         child: Container(
             padding: EdgeInsets.symmetric(horizontal: widht * .1),
@@ -68,13 +70,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         color: Colors.teal),
                   ),
                 ),
-
                 UserPoint(input: inputState),
-                
                 SizedBox(
-                  height: (height*.1),
+                  height: (height * .025),
                 ),
-                
                 const Divider(
                   color: Colors.grey,
                   thickness: 2,
@@ -104,11 +103,9 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
-
                 UserWeightFactor(
                   weightfactors: weightfactors,
                 ),
-                
                 const Divider(
                   color: Colors.grey,
                   thickness: 2,
@@ -203,6 +200,8 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       setState(() {
         onCalculate = 2;
       });
+    } else {
+      popupAlert(context, "hckmd", "anlnda");
     }
   }
 
