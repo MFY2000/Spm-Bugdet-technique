@@ -31,8 +31,9 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
     return Column(
       children: [
         Card(
-            elevation: 4,
+            elevation: 0,
             child: Container(
+              margin: EdgeInsets.symmetric(vertical:  8),
               padding: EdgeInsets.all(8),
 
               child: Column(
@@ -42,7 +43,7 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                        "Heading",
+                        "User Input (54)",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -51,19 +52,41 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
                       Text(
                         "= 98",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    height: 100,
+                    child: Column(
+                      children: [                        
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.only(bottom: 17),
+                                width: MediaQuery.of(context).size.width * .25,
+                                child: const TextField()
+                              ),
+                            DropDownLst(
+                                lstMethods: widget.weightfactors,
+                                onSelect: (index) {}),
+                            IconButton(
+                                onPressed: () => {},
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                ))
+                          ],
+                        )
+                      
+                      ],
+                    ),
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children:  [
+                    children: [
                       ElevatedButton(
                         child: Text("Add"),
                         onPressed: () => {},
