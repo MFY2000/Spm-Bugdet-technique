@@ -3,13 +3,21 @@
 import 'package:flutter/cupertino.dart';
 
 class Functional {
-  String display;
-  late TextEditingController control = TextEditingController();
-  bool isValid;
+  int value = 0;
+  String display = "Enter";
+  TextEditingController control = TextEditingController();
+  bool isValid = false;
 
-  Functional({required this.display, required this.isValid});
+  Functional(String value) {
+    setDisplay(value);
+    control.text = "${this.value}";
+  }
 
-  changeState() {
+  void setDisplay(String value) {
+    display = "Enter" + value;
+  }
+
+  void changeState() {
     isValid = !isValid;
   }
 
@@ -18,17 +26,24 @@ class Functional {
   }
 
   int getData() {
-    return int.parse(control.value.text);
+    value = int.parse(control.value.text);
+    return value;
+  }
+
+  onChange(String change){
+    value = int.parse(change);
   }
 }
 
-List<Functional> inputControllerFP = [
-  Functional(display: "Enter User Input", isValid: false),
-  Functional(display: "Enter User Output", isValid: false),
-  Functional(display: "Enter User Inquiries", isValid: false),
-  Functional(display: "Enter User Files", isValid: false),
-  Functional(display: "Enter External Interface", isValid: false),
+List<String> inputStringFP = [
+  "User Input",
+  "User Output",
+  "User Inquiries",
+  "User Files",
+  "External Interface"
 ];
+
+List<Functional> inputControllerFP = [];
 
 List<List<int>> wtFactors = [
   [6, 7, 6, 15, 10],
@@ -36,7 +51,24 @@ List<List<int>> wtFactors = [
   [3, 4, 3, 7, 5],
 ];
 
-late Map<String, List<int>> multipleScale = {
+List<String> weightfactors = ["....", "High", "Average ", "Low"];
+List<String> weightScale = [
+  "....",
+  "No influence",
+  "Incidental",
+  "Moderate",
+  "Average",
+  "Significant",
+  "Essential"
+];
+
+Map<String, List<int>> multipleScale = {
   "weight": [0],
   "Scale": [0]
+};
+
+Map<String, List<int>> multipleWeight = {
+  "weight": [0],
+  "Type": [0],
+  "Limit": [0]
 };
