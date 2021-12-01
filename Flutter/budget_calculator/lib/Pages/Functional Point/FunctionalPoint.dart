@@ -54,121 +54,124 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     widht = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
-    return SingleChildScrollView(
-        child: Container(
-            padding: EdgeInsets.symmetric(horizontal: widht * .1),
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.end,
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: widht * .1),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Functional Point',
+                style: TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal),
+              ),
+            ),
+            UserPoint(input: inputState),
+            SizedBox(
+              height: (height * .025),
+            ),
+            const Divider(
+              color: Colors.grey,
+              thickness: 2,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Functional Point',
+                const Padding(
+                  padding: EdgeInsets.only(right: 30),
+                  child: Text(
+                    "Weight Factors",
                     style: TextStyle(
-                        fontSize: 21,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.teal),
                   ),
                 ),
-                UserPoint(input: inputState),
-                SizedBox(
-                  height: (height * .025),
-                ),
-                const Divider(
-                  color: Colors.grey,
-                  thickness: 2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 30),
-                      child: Text(
-                        "Weight Factors",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal),
-                      ),
-                    ),
-                    onPressWeight
-                        ? DropDownLst(
-                            lstMethods: weightfactors, onSelect: weightSelect)
-                        : Container(),
-                    IconButton(
-                        onPressed: () => {},
-                        icon: const Icon(
-                          Icons.settings_suggest,
-                          size: 22,
-                        ))
-                  ],
-                ),
-                UserWeightFactor(
-                  weightfactors: weightfactors,
-                ),
-                const Divider(
-                  color: Colors.grey,
-                  thickness: 2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 30),
-                      child: Text(
-                        "CAF (${onPressScale ? "Default" : "Dynamic"})",
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal),
-                      ),
-                    ),
-                    onPressScale
-                        ? DropDownLst(
-                            lstMethods: weightScale, onSelect: factoreSelect)
-                        : Container(),
-                    IconButton(
-                        onPressed: () => {
-                              setState(() {
-                                onPressScale = !onPressScale;
-                              })
-                            },
-                        icon: const Icon(
-                          Icons.settings_suggest,
-                          size: 22,
-                        ))
-                  ],
-                ),
-                !onPressScale
-                    ? ScaleFactor(
-                        weightfactors: weightScale,
-                        limit: 15,
-                      )
+                onPressWeight
+                    ? DropDownLst(
+                        lstMethods: weightfactors, onSelect: weightSelect)
                     : Container(),
-                TextButton(
-                    onPressed: calculate,
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * .0125),
-                      width: MediaQuery.of(context).size.width * .75,
-                      height: MediaQuery.of(context).size.height * .05,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "Calculate",
-                        style: TextStyle(fontSize: 15, color: Colors.white),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.blue[600],
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15.0))),
-                    )),
-                onCalculate == 0
-                    ? Container()
-                    : (onCalculate == 1
-                        ? const CircularProgressIndicator()
-                        : getResult()),
+                IconButton(
+                    onPressed: () => {
+                          setState(() {
+                            onPressWeight = !onPressWeight;
+                          })
+                        },
+                    icon: const Icon(
+                      Icons.settings_suggest,
+                      size: 22,
+                    ))
               ],
-            )));
+            ),
+            !onPressWeight
+                ? UserWeightFactor(
+                    weightfactors: weightfactors,
+                  )
+                : Container(),
+            const Divider(
+              color: Colors.grey,
+              thickness: 2,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Text(
+                    "CAF (${onPressScale ? "Default" : "Dynamic"})",
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal),
+                  ),
+                ),
+                onPressScale
+                    ? DropDownLst(
+                        lstMethods: weightScale, onSelect: factoreSelect)
+                    : Container(),
+                IconButton(
+                    onPressed: () => {
+                          setState(() {
+                            onPressScale = !onPressScale;
+                          })
+                        },
+                    icon: const Icon(
+                      Icons.settings_suggest,
+                      size: 22,
+                    ))
+              ],
+            ),
+            !onPressScale
+                ? ScaleFactor(
+                    weightfactors: weightScale,
+                    limit: 15,
+                  )
+                : Container(),
+            TextButton(
+                onPressed: calculate,
+                child: Container(
+                  margin: EdgeInsets.only(top: height * .0125),
+                  width: widht * .75,
+                  height: height * .05,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "Calculate",
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.blue[600],
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(15.0))),
+                )),
+            onCalculate == 0
+                ? Container()
+                : (onCalculate == 1
+                    ? const CircularProgressIndicator()
+                    : getResult()),
+          ],
+        ));
   }
 
   calculate() {
