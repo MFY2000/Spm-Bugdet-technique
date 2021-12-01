@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, non_constant_identifier_names
 
 import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
@@ -8,26 +8,25 @@ import 'package:budget_calculator/Pages/Functional%20Point/UserWeightFactor.dart
 import 'package:flutter/material.dart';
 
 class FunctionalPoint extends StatefulWidget {
-  FunctionalPoint({Key? key}) : super(key: key);
-
-  late bool error;
-  late Map<String, List<int>> multipleweight = {};
+  List<Functional> input;
+  FunctionalPoint({Key? key, required this.input}) : super(key: key);
 
   @override
   _FunctionalPointState createState() => _FunctionalPointState();
 }
 
 class _FunctionalPointState extends State<FunctionalPoint> {
-  List<Functional> userInput = [];
-  List<String> weightfactors = [];
-  List<String> weightScale = [];
+  late List<Functional> inputState;
 
-  int dividedScale = 0, weightSelection = 0, facotreSelection = 0;
+  late int weightSelection, facotreSelection;
+  late double widht,height;
 
-  String toReturn = "";
+  late String toReturn;
 
+  late bool error;
   late bool onPressScale = true;
   late bool onPressWeight = true;
+
   late int factor;
   late double CAF, UCP;
   late double functionalPoint;
@@ -37,31 +36,25 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   @override
   void initState() {
     // TODO: implement initState
-    userInput = inputControllerFP;
-    weightfactors = ["....", "High", "Average ", "Low"];
-    weightScale = [
-      "....",
-      "No influence",
-      "Incidental",
-      "Moderate",
-      "Average",
-      "Significant",
-      "Essential"
-    ];
-
     weightSelection = 0;
     facotreSelection = 0;
 
     onPressScale = true;
     onPressWeight = true;
+
+    inputState = widget.input;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    widht = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    
     return SingleChildScrollView(
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            padding: EdgeInsets.symmetric(horizontal: widht * .1),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -75,10 +68,13 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         color: Colors.teal),
                   ),
                 ),
-                const UserPoint(),
-                const SizedBox(
-                  height: 10,
+
+                UserPoint(input: inputState),
+                
+                SizedBox(
+                  height: (height*.1),
                 ),
+                
                 const Divider(
                   color: Colors.grey,
                   thickness: 2,
@@ -108,15 +104,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                         ))
                   ],
                 ),
-                // !onPressWeight
-                //     ? UserWeightFactor(
-                //         weightfactors: weightfactors,
-                //       )
-                //     : Container(),
 
                 UserWeightFactor(
-                        weightfactors: weightfactors,
-                      ),
+                  weightfactors: weightfactors,
+                ),
+                
                 const Divider(
                   color: Colors.grey,
                   thickness: 2,
@@ -171,7 +163,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                       decoration: BoxDecoration(
                           color: Colors.blue[600],
                           borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
+                              const BorderRadius.all(Radius.circular(15.0))),
                     )),
                 onCalculate == 0
                     ? Container()
@@ -262,11 +254,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     String temp = "";
 
     var weight = wtFactors[weightSelection];
-    for (var i = 0; i < userInput.length; i++) {
-      temp = i < (userInput.length - 1) ? "+" : "";
+    for (var i = 0; i < inputState.length; i++) {
+      temp = i < (inputState.length - 1) ? "+" : "";
 
-      UFP += weight[i] * userInput[i].getData();
-      ufpCalculation += "(${weight[i]} * ${userInput[i].getData()}) $temp ";
+      UFP += weight[i] * inputState[i].getData();
+      ufpCalculation += "(${weight[i]} * ${inputState[i].getData()}) $temp ";
     }
 
     toReturn += "\n";
@@ -340,10 +332,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   bool validation() {
-    for (var item in userInput) {
+    for (var item in inputState) {
       if (item.isFill()) {
         setState(() {
-          widget.error = true;
+          error = true;
           item.changeState();
         });
         return false;
