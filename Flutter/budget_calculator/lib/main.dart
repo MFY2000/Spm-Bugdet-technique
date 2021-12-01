@@ -1,4 +1,5 @@
 import 'package:budget_calculator/Custom/DropDown.dart';
+import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/COCOMO.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/FunctionalPoint.dart';
 import 'package:budget_calculator/Pages/UseCasePoint/UCP.dart';
@@ -102,17 +103,30 @@ class _MyHomePageState extends State<MyHomePage> {
         toReturn = const CocomoCalculator();
         break;
       case 3:
-        toReturn = FunctionalPoint();
+        for (var item in inputStringFP) {
+          inputControllerFP.add(Functional(item));
+        }
+        toReturn = FunctionalPoint(input: inputControllerFP);
         break;
       case 4:
         toReturn = const UseCasePoint();
         break;
       default:
-        toReturn = FunctionalPoint(); //Container();
+      for (var item in inputStringFP) {
+          inputControllerFP.add(Functional(item));
+      }
+        toReturn = FunctionalPoint(input: inputControllerFP,); //Container();
 
     }
 
 
     return toReturn;
   }
+
+  getAllUserInput(List<String> element){
+    
+  }
+
 }
+
+
