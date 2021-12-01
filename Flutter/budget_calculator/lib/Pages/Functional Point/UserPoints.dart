@@ -5,15 +5,24 @@ import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:flutter/material.dart';
 
 class UserPoint extends StatefulWidget {
-  const UserPoint({Key? key}) : super(key: key);
+  final List<Functional> input;
+  const UserPoint({Key? key, required this.input}) : super(key: key);
 
   @override
   _UserPointState createState() => _UserPointState();
 }
 
 class _UserPointState extends State<UserPoint> {
-  var userInput = inputControllerFP;
+  late List<Functional> userInput;
   double width = 0.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    userInput = widget.input;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,64 +35,36 @@ class _UserPointState extends State<UserPoint> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: width * .35,
-              child: TextFeildCustom(
-                width_: 0.75,
-                taskInput: userInput[0].control,
-                inputLabel: userInput[0].display,
-                isValid: userInput[0].isValid,
-              ),
-            ),
-            SizedBox(
-              width: width * .35,
-              child: TextFeildCustom(
-                width_: 0.75,
-                taskInput: userInput[1].control,
-                inputLabel: userInput[1].display,
-                isValid: userInput[1].isValid,
-              ),
-            ),
+            getTextFildStyle(0),
+            getTextFildStyle(1),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: width * .35,
-              child: TextFeildCustom(
-                width_: 0.75,
-                taskInput: userInput[2].control,
-                inputLabel: userInput[2].display,
-                isValid: userInput[2].isValid,
-              ),
-            ),
-            SizedBox(
-              width: width * .35,
-              child: TextFeildCustom(
-                width_: 0.75,
-                taskInput: userInput[3].control,
-                inputLabel: userInput[3].display,
-                isValid: userInput[3].isValid,
-              ),
-            ),
+            getTextFildStyle(2),
+            getTextFildStyle(3),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: width * .35,
-              child: TextFeildCustom(
-                width_: 0.75,
-                taskInput: userInput[4].control,
-                inputLabel: userInput[4].display,
-                isValid: userInput[4].isValid,
-              ),
-            ),
+            getTextFildStyle(4),
           ],
         )
       ],
+    );
+  }
+
+  Widget getTextFildStyle(int index) {
+    return SizedBox(
+      width: width * .35,
+      child: TextFeildCustom(
+          width_: 0.75,
+          taskInput: userInput[index].control,
+          inputLabel: userInput[index].display,
+          isValid: userInput[index].isValid,
+          onChange: userInput[index].onChange),
     );
   }
 }
