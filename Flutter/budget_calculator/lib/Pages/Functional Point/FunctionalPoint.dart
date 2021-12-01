@@ -79,26 +79,16 @@ class _FunctionalPointState extends State<FunctionalPoint> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(right: 30),
-                  child: Text(
-                    "Weight Factors",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal),
-                  ),
+                const Text(
+                  "Weighing factor",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal),
                 ),
-                onPressWeight
-                    ? DropDownLst(
-                        lstMethods: weightfactors, onSelect: weightSelect)
-                    : Container(),
+                DropDownLst(lstMethods: weightfactors, onSelect: weightSelect),
                 IconButton(
-                    onPressed: () => {
-                          setState(() {
-                            onPressWeight = !onPressWeight;
-                          })
-                        },
+                    onPressed: () => {onPressAdvance(true)},
                     icon: const Icon(
                       Icons.settings_suggest,
                       size: 22,
@@ -106,9 +96,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
               ],
             ),
             !onPressWeight
-                ? UserWeightFactor(
-                    weightfactors: weightfactors,
-                  )
+                ? UserWeightFactor(weightfactors: weightSelection)
                 : Container(),
             const Divider(
               color: Colors.grey,
@@ -117,30 +105,21 @@ class _FunctionalPointState extends State<FunctionalPoint> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: Text(
-                    "CAF (${onPressScale ? "Default" : "Dynamic"})",
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal),
-                  ),
+                Text(
+                  "CAF (${onPressScale ? "Default" : "Dynamic"})",
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal),
                 ),
-                onPressScale
-                    ? DropDownLst(
-                        lstMethods: weightScale, onSelect: factoreSelect)
-                    : Container(),
+                DropDownLst(lstMethods: weightScale, onSelect: factoreSelect),
                 IconButton(
-                    onPressed: () => {
-                          setState(() {
-                            onPressScale = !onPressScale;
-                          })
-                        },
-                    icon: const Icon(
-                      Icons.settings_suggest,
-                      size: 22,
-                    ))
+                        onPressed: () => {onPressAdvance(false)},
+                        icon: const Icon(
+                          Icons.settings_suggest,
+                          size: 22,
+                        ))
+                   
               ],
             ),
             !onPressScale
@@ -174,17 +153,27 @@ class _FunctionalPointState extends State<FunctionalPoint> {
         ));
   }
 
+  onPressAdvance(bool turn) {
+    bool match = (turn ? weightSelection : facotreSelection) == 0;
+
+    if (!match) {
+      setState(() {
+        if (turn) {
+          onPressWeight = !onPressWeight;
+        } else {
+          onPressScale = !onPressScale;
+        }
+      });
+    } else {
+      popupAlert(context, "${turn ? "Weight" : "Scale"} is Empty",
+          "Pls select any of following as default");
+    }
+  }
+
   calculate() {
     setState(() {
       onCalculate = 1;
     });
-
-    factor = calculateFactor();
-    CAF = calculateCAF();
-
-    print(factor);
-    print(toReturn);
-
     if (validation()) {
       toReturn = "";
 
@@ -204,6 +193,9 @@ class _FunctionalPointState extends State<FunctionalPoint> {
         onCalculate = 2;
       });
     } else {
+      setState(() {
+        onCalculate = 0;
+      });
       popupAlert(context, "hckmd", "anlnda");
     }
   }
@@ -317,7 +309,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightfactors.length; i++) {
       if (weightfactors[i] == value) {
         setState(() {
-          weightSelection = i - 1;
+          weightSelection = i;
         });
       }
     }
@@ -327,7 +319,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightScale.length; i++) {
       if (weightScale[i] == value) {
         setState(() {
-          facotreSelection = i - 1;
+          facotreSelection = i;
         });
       }
     }
