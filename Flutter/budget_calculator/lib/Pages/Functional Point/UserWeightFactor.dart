@@ -1,12 +1,11 @@
 // ignore_for_file: file_names
 
-import 'package:budget_calculator/Custom/DropDown.dart';
-import 'package:budget_calculator/Custom/IncrementTextFeild.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
+import 'package:budget_calculator/Pages/Functional%20Point/CardAdvance.dart';
 import 'package:flutter/material.dart';
 
 class UserWeightFactor extends StatefulWidget {
-  final List<String> weightfactors;
+  final int weightfactors;
 
   const UserWeightFactor({Key? key, required this.weightfactors})
       : super(key: key);
@@ -17,7 +16,6 @@ class UserWeightFactor extends StatefulWidget {
 
 class _UserWeightFactorState extends State<UserWeightFactor> {
   late int noOfchild = 1;
-  late int limitLeft;
 
   @override
   void initState() {
@@ -28,149 +26,26 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-            elevation: 0,
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical:  8),
-              padding: EdgeInsets.all(8),
-
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        "User Input (54)",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal),
-                      ),
-                      Text(
-                        "= 98",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    child: Column(
-                      children: [                        
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                                padding: EdgeInsets.only(bottom: 17),
-                                width: MediaQuery.of(context).size.width * .25,
-                                child: const TextField()
-                              ),
-                            DropDownLst(
-                                lstMethods: widget.weightfactors,
-                                onSelect: (index) {}),
-                            IconButton(
-                                onPressed: () => {},
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                ))
-                          ],
-                        )
-                      
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        child: Text("Add"),
-                        onPressed: () => {},
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ))
-      ],
-    );
+    return Column(children: getDifferentCard());
   }
 
   getDifferentCard() {
     List<Widget> toReturn = [];
-  }
-
-  getNoChildren() {
-    List<Widget> toRetun = [];
-
-    for (var i = 0; i < noOfchild; i++) {
-      toRetun.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          NumericStepButton(
-            maxValue: limitLeft,
-            minValue: 0,
-            onChanged: (index) {
-              multipleScale["weight"]![i] = index;
-              setState(() {
-                limitLeft = calculateScaleLeft(multipleScale["weight"]!);
-              });
-            },
-          ),
-          DropDownLst(
-              lstMethods: widget.weightfactors,
-              onSelect: (index) {
-                multipleScale["Scale"]![i] =
-                    widget.weightfactors.indexOf(index);
-              }),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    if (limitLeft != 0) {
-                      if (!(multipleScale["Scale"]![i] == 0 &&
-                          multipleScale["weight"]![i] == 0)) {
-                        setState(() {
-                          multipleScale["Scale"]!.add(0);
-                          multipleScale["weight"]!.add(0);
-
-                          limitLeft =
-                              calculateScaleLeft(multipleScale["weight"]!);
-                          noOfchild++;
-                        });
-                      }
-                    }
-                  },
-                  icon: const Icon(Icons.add)),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      toRetun.removeAt(i);
-                      multipleScale["Scale"]!.removeAt(i);
-                      multipleScale["weight"]!.removeAt(i);
-                      limitLeft = calculateScaleLeft(multipleScale["weight"]!);
-                      noOfchild--;
-                    });
-                  },
-                  icon: const Icon(Icons.delete)),
-            ],
-          )
-        ],
-      ));
-    }
-    return toRetun;
-  }
-
-  int calculateScaleLeft(List<int> lst) {
-    int sum = 0;
-    for (var item in lst) {
-      sum += item;
+    List<dynamic> weight = [], type = [], limit = [];
+    
+    for (var i = 0; i < 5; i++) {
+      weight.add([inputControllerFP[i].value]);
+      type.add([wtFactors[widget.weightfactors][i]]);
+      limit.add(inputControllerFP[i].value);
+    
+      toReturn.add(CardAdvance(
+        heading: inputStringFP[i], selection: i));
     }
 
-    return 14 - sum;
+    multipleWeight["weight"] = weight;
+    multipleWeight["Type"] = type;
+    multipleWeight["Limit"] = limit;
+    
+    return toReturn;
   }
 }
