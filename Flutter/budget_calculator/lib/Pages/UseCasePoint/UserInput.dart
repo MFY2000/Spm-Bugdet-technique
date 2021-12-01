@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:budget_calculator/Custom/TextFeildCustom.dart';
 import 'package:budget_calculator/Model/UseCaseModel.dart';
 import 'package:flutter/material.dart';
 
@@ -91,41 +92,3 @@ class _UserInputState extends State<UserInput> {
   }
 }
 
-class TextInput extends StatefulWidget {
-  final TextEditingController taskInput;
-  bool isValid;
-  final String inputLabel;
-  final void Function(int index, String value) onChange;
-  final int index;
-
-  TextInput(
-      {Key? key,
-      required this.isValid,
-      required this.inputLabel,
-      required this.taskInput,
-      required this.index,
-      required this.onChange})
-      : super(key: key);
-
-  @override
-  State<TextInput> createState() => _TextInputState();
-}
-
-class _TextInputState extends State<TextInput> {
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: widget.taskInput,
-      keyboardType: TextInputType.number,
-      onChanged: (value) => {
-        if (widget.isValid) widget.isValid = false,
-        widget.onChange(widget.index, value)
-      },
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        errorText: widget.isValid ? "Please ${widget.inputLabel}" : null,
-        labelText: widget.inputLabel,
-      ),
-    );
-  }
-}
