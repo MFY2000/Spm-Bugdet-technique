@@ -69,6 +69,7 @@ class _CocomoCalculatorState extends State<CocomoCalculator> {
     var effort, dT;
 
     setState(() {
+      ResultToString="";
       if (kloc <= 50 && kloc >= 2) {
         effort = 2.4 * pow(kloc, 1.05);
         ResultToString += "organic effort: $effort person / month";
