@@ -24,7 +24,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
   late String toReturn;
 
-  late bool error;
+  late List<String> error = [];
   late bool onPressScale = true;
   late bool onPressWeight = true;
 
@@ -114,12 +114,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                 ),
                 DropDownLst(lstMethods: weightScale, onSelect: factoreSelect),
                 IconButton(
-                        onPressed: () => {onPressAdvance(false)},
-                        icon: const Icon(
-                          Icons.settings_suggest,
-                          size: 22,
-                        ))
-                   
+                    onPressed: () => {onPressAdvance(false)},
+                    icon: const Icon(
+                      Icons.settings_suggest,
+                      size: 22,
+                    ))
               ],
             ),
             !onPressScale
@@ -171,6 +170,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   calculate() {
+
     setState(() {
       onCalculate = 1;
     });
@@ -196,7 +196,8 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       setState(() {
         onCalculate = 0;
       });
-      popupAlert(context, "hckmd", "anlnda");
+      popupAlert(context, error[0], error[1]);
+      error = [];
     }
   }
 
@@ -248,11 +249,61 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     String temp = "";
 
     var weight = wtFactors[weightSelection];
-    for (var i = 0; i < inputState.length; i++) {
-      temp = i < (inputState.length - 1) ? "+" : "";
+    if (onPressWeight) {
+      for (var i = 0; i < inputState.length; i++) {
+        temp = i < (inputState.length - 1) ? "+" : "";
+        UFP += weight[i] * inputState[i].getData();
+        ufpCalculation += "(${weight[i]} * ${inputState[i].getData()}) $temp ";
+      }
+    } else {
+      var weightingUFP = multipleWeight["weight"],
+          typeUFP = multipleWeight["Type"],
+          limitUFP = multipleWeight["Limit"],
+          item1 = [],
+          item2 = [];
 
-      UFP += weight[i] * inputState[i].getData();
-      ufpCalculation += "(${weight[i]} * ${inputState[i].getData()}) $temp ";
+      num sum = 0;
+
+      String toString = "";
+
+      // for (var i = 0; i < weightingUFP.length; i++) {
+      //   for (var j = 0; j < weightingUFP[i].length; j++) {
+      //     if(j != 0){
+      //       sum += weightingUFP[i][j];
+      //     }
+      //   }
+
+      //   weightingUFP[i][0] = limitUFP[i] -  sum;
+      // }
+
+
+      int i = 0, j = 0;
+      for (var itemweight in weightingUFP) {
+        item2 = typeUFP[i];
+        j = 0;
+        
+        print(itemweight);
+
+        for (var item in itemweight) {
+          
+          toString += i == 0 ? "" : "+";
+          sum += (item * item2[j]);
+          toString += "($item * ${item2[j]})"; 
+          j++;
+        }
+        i++;
+      }
+      // for (var i = 0; i < weightingUFP.length; i++) {
+      //   item1 = weightingUFP[i];
+
+      //   for (var j = 0; j < item1.length; j++) {          
+      //     toString += i == 0 ? "" : "+";
+      //     sum += (item1[j] * item2[j])!;
+      //     toString += "(${item1[j]} * ${item2[i]})";      
+      //   }
+      // }
+
+      print("$toString   [ $sum,]");
     }
 
     toReturn += "\n";
@@ -326,22 +377,29 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   bool validation() {
-    for (var item in inputState) {
-      if (item.isFill()) {
-        setState(() {
-          error = true;
-          item.changeState();
-        });
-        return false;
-      }
-    }
+    // for (var item in inputState) {
+    //   if (item.isFill()) {
+    //     setState(() {
+    //       error.add("Fill the feilds");
+    //       error.add("Pls fill the follwing feilds");
+    //       // item.changeState();
+    //     });
+    //     // return false;
+    //   }
+    // }
 
-    if (facotreSelection == 0) {
-      if (weightSelection == 0 || onPressScale) {
-        return false;
-      }
-      return false;
-    }
+    // if (facotreSelection != 0) {
+    //   error.add("Select any Factor");
+    //   error.add("Pls select any factor");
+    //   return false;
+    // }
+
+    // if (weightSelection != 0) {
+    //   error.add("Select any weight");
+    //   error.add("Pls select any weighting factor");
+    //   return false;
+    // }
+
 
     return true;
   }
