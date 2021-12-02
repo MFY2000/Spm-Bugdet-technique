@@ -27,6 +27,8 @@ class _CardAdvanceState extends State<CardAdvance> {
 
   late List<TextEditingController> control = [];
 
+  late bool isSave = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -97,7 +99,7 @@ class _CardAdvanceState extends State<CardAdvance> {
   getChildren() {
     List<Widget> toReturn = [];
 
-    for (var i = 0; i < children; i++) {
+    for (var i = 1; i < weight.length; i++) {
       control.add(TextEditingController());
 
       toReturn.add(Row(
@@ -109,26 +111,32 @@ class _CardAdvanceState extends State<CardAdvance> {
               child: TextField(
                 controller: control[i],
                 onChanged: (String value) {
-                  onChange(value, (i + 1));
+                  onChange(value, i);
                 },
               )),
           DropDownLst(
             lstMethods: weightfactors,
             onSelect: (String value) {
-              onSelect(value, (i + 1));
+              onSelect(value, i);
             },
           ),
-          IconButton(
-              onPressed: () =>
-                  {!(i == currentIndex) ? onEdit((i + 1)) : onDelete((i + 1))},
-              icon: Icon(
-                !(i == currentIndex) ? Icons.edit : Icons.delete,
-                color: !(i == currentIndex) ? Colors.green : Colors.red,
-              ))
+          addButton(i)
         ],
       ));
     }
     return toReturn;
+  }
+
+  addButton(int i) {
+    print("$i == $currentIndex");
+    bool match = (i == currentIndex);
+
+    return IconButton(
+        onPressed: () => {match ? onEdit(i) : onDelete(i)},
+        icon: Icon(
+          match ? Icons.edit : Icons.delete,
+          color: match ? Colors.green : Colors.red,
+        ));
   }
 
   onAddingChildren() {
@@ -137,8 +145,8 @@ class _CardAdvanceState extends State<CardAdvance> {
         weight.add(0);
         type.add(0);
 
-        currentIndex = weight.length - 1;
         children = weight.length - 1;
+        currentIndex = children;
 
         multipleWeight["weight"][widget.selection] = weight;
         multipleWeight["Type"][widget.selection] = type;
@@ -149,14 +157,17 @@ class _CardAdvanceState extends State<CardAdvance> {
 
   bool canAddChildren() {
     bool toReturn = false;
-    if (weight.length == 1) {
-      toReturn = true;
-    } else if (isWeightDivided()) {
-      toReturn = true;
+    
+    if (weight.last == 0 || type.last == 0) {
+      print("$weight $type");
+      popupAlert(context, "Fill the feild", "Pls Fill the feild to add more");
     } else {
-      toReturn = false;
+      if (weight.length == 1) {
+        toReturn = true;
+      } else if (isWeightDivided()) {
+        toReturn = true;
+      }
     }
-
     return toReturn;
   }
 
@@ -189,17 +200,18 @@ class _CardAdvanceState extends State<CardAdvance> {
     } else {
       control[index].text = "$temp";
     }
+    print("$weight"); 
+
   }
 
   onSelect(String value, int index) {
     if (index == currentIndex) {
       for (var i = 0; i < weightfactors.length; i++) {
         if (weightfactors[i] == value) {
-          type[currentIndex] = weightfactors[i][widget.selection];
+          type[currentIndex] = wtFactors[i][widget.selection];
         }
       }
     }
-    print("$type");
   }
 
   onDelete(int index) {
@@ -207,11 +219,11 @@ class _CardAdvanceState extends State<CardAdvance> {
       weight.removeAt(index);
       type.removeAt(index);
 
-      currentIndex = weight.length - 1;
       children = weight.length - 1;
+      currentIndex = children;
 
       multipleWeight["weight"][widget.selection] = weight;
-      multipleWeight["Type"][widget.selection] = type;
+      multipleWeight["Type"][widget.selection] = type;  
     });
   }
 
