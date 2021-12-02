@@ -32,20 +32,20 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
   getDifferentCard() {
     List<Widget> toReturn = [];
     List<dynamic> weight = [], type = [], limit = [];
-    
     for (var i = 0; i < 5; i++) {
       weight.add([inputControllerFP[i].value]);
       type.add([wtFactors[widget.weightfactors][i]]);
       limit.add(inputControllerFP[i].value);
-    
-      toReturn.add(CardAdvance(
-        heading: inputStringFP[i], selection: i));
+
+      toReturn.add(CardAdvance(heading: inputStringFP[i], selection: i));
     }
 
-    multipleWeight["weight"] = weight;
-    multipleWeight["Type"] = type;
-    multipleWeight["Limit"] = limit;
-    
+    if(multipleWeight["weight"].isEmpty) {
+      multipleWeight["weight"] = weight;
+      multipleWeight["Type"] = type;
+      multipleWeight["Limit"] = limit;
+    }
+
     return toReturn;
   }
 }
