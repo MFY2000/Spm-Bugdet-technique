@@ -113,10 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
         toReturn = const UseCasePoint();
         break;
       default:
-      for (var item in inputStringFP) {
-          inputControllerFP.add(Functional(item));
-      }
-        toReturn = FunctionalPoint(input: inputControllerFP,); //Container();
+      
+        toReturn = Container(); //Container();
 
     }
 
