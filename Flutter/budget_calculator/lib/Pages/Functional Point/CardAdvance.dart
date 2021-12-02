@@ -101,22 +101,23 @@ class _CardAdvanceState extends State<CardAdvance> {
   }
 
   getChildren() {
+    List<TextEditingController> control = [];
     List<Widget> toReturn = [];
 
     for (var i = 0; i < children; i++) {
+      control.add(TextEditingController());
+
       toReturn.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
               padding: const EdgeInsets.only(bottom: 17),
-              width: MediaQuery.of(context).size.width * .25,
-              child: const TextField()
-              ),
+              width: MediaQuery.of(context).size.width * .125,
+              child: TextField(
+                controller: control[i],
+              )),
           DropDownLst(lstMethods: weightfactors, onSelect: (index) {}),
           Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
                   onPressed: () => {},
