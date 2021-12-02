@@ -98,8 +98,8 @@ class _CardAdvanceState extends State<CardAdvance> {
 
   getChildren() {
     List<Widget> toReturn = [];
-
-    for (var i = 1; i < weight.length; i++) {
+    int count = 0;
+    for (var i = 0; i < children; i++, ++count) {
       control.add(TextEditingController());
 
       toReturn.add(Row(
@@ -111,33 +111,22 @@ class _CardAdvanceState extends State<CardAdvance> {
               child: TextField(
                 controller: control[i],
                 onChanged: (String value) {
-                  onChange(value, i);
+                  onChange(value, count);
                 },
               )),
           DropDownLst(
             lstMethods: weightfactors,
             onSelect: (String value) {
-              onSelect(value, i);
+              onSelect(value, count);
             },
           ),
-          addButton(i)
+          addButton(count)
         ],
       ));
     }
     return toReturn;
   }
 
-  addButton(int i) {
-    print("$i == $currentIndex");
-    bool match = (i == currentIndex);
-
-    return IconButton(
-        onPressed: () => {match ? onEdit(i) : onDelete(i)},
-        icon: Icon(
-          match ? Icons.edit : Icons.delete,
-          color: match ? Colors.green : Colors.red,
-        ));
-  }
 
   onAddingChildren() {
     if (canAddChildren()) {
@@ -186,21 +175,20 @@ class _CardAdvanceState extends State<CardAdvance> {
       typing = int.parse(value);
 
       if (limit >= typing) {
-        weight[currentIndex] = typing;
+        weight[index] = typing;
         if (!isWeightDivided()) {
           popupAlert(context, "Exclude from Limit",
               "Pls Enter value between the Limit");
-          control[currentIndex].text = "$temp";
+          control[index].text = "$temp";
         }
       } else {
         popupAlert(
             context, "Exclude from Limit", "Pls Enter value between the Limit");
-        control[currentIndex].text = "$temp";
+        control[index].text = "$temp";
       }
     } else {
       control[index].text = "$temp";
     }
-    print("$weight"); 
 
   }
 
@@ -213,6 +201,18 @@ class _CardAdvanceState extends State<CardAdvance> {
       }
     }
   }
+
+  addButton(int i) {
+    bool match = (i == currentIndex);
+
+    return IconButton(
+        onPressed: () => {match ? onEdit(i) : onDelete(i)},
+        icon: Icon(
+          match ? Icons.edit : Icons.delete,
+          color: match ? Colors.green : Colors.red,
+        ));
+  }
+
 
   onDelete(int index) {
     setState(() {
