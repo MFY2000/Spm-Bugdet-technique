@@ -13,7 +13,7 @@ class Functional {
   }
 
   void setDisplay(String value) {
-    display = "Enter" + value;
+    display = "Enter " + value;
   }
 
   void changeState() {
