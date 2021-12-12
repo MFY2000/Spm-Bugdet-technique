@@ -377,16 +377,16 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   bool validation() {
-    // for (var item in inputState) {
-    //   if (item.isFill()) {
-    //     setState(() {
-    //       error.add("Fill the feilds");
-    //       error.add("Pls fill the follwing feilds");
-    //       // item.changeState();
-    //     });
-    //     // return false;
-    //   }
-    // }
+    for (var item in inputState) {
+      if (item.isFill()) {
+        setState(() {
+          error.add("Fill the feilds");
+          error.add("Pls fill the follwing feilds");
+        });
+          item.changeState();
+        return false;
+      }
+    }
 
     // if (facotreSelection != 0) {
     //   error.add("Select any Factor");
