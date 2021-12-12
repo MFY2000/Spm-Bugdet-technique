@@ -59,12 +59,12 @@ class _UserPointState extends State<UserPoint> {
   Widget getTextFildStyle(int index) {
     return SizedBox(
       width: width * .35,
-      child: TextFeildCustom(
+      child: TextInput( 
           width_: 0.75,
           taskInput: userInput[index].control,
           inputLabel: userInput[index].display,
           isValid: userInput[index].isValid,
-          onChange: userInput[index].onChange),
+          onChange: userInput[index].onChange, index: null,),
     );
   }
 }
