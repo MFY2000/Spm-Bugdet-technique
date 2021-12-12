@@ -32,18 +32,18 @@ class TextFeildCustom extends StatelessWidget {
           errorText: isValid ? "Please ${inputLabel}" : null,
           labelText: inputLabel,
         ),
+        textInputAction: TextInputAction.next,
       ),
     );
   }
 
-  onChangeInput(String value){
+  onChangeInput(String value) {
     onChange(value);
 
-    if (isValid){
-     isValid = value.isEmpty;
+    if (isValid) {
+      isValid = value.isEmpty;
     }
   }
-
 }
 
 class TextInput extends StatefulWidget {
@@ -52,14 +52,15 @@ class TextInput extends StatefulWidget {
   final String inputLabel;
   final void Function(int index, String value) onChange;
   final int index;
-
+  double width_;
   TextInput(
       {Key? key,
       required this.isValid,
       required this.inputLabel,
       required this.taskInput,
       required this.index,
-      required this.onChange})
+      required this.onChange,
+      required this.width_})
       : super(key: key);
 
   @override
@@ -73,7 +74,10 @@ class _TextInputState extends State<TextInput> {
       controller: widget.taskInput,
       keyboardType: TextInputType.number,
       onChanged: (value) => {
-        if (widget.isValid) widget.isValid = false,
+        if (widget.isValid)
+          setState(() {
+            widget.isValid = false;
+          }),
         widget.onChange(widget.index, value)
       },
       decoration: InputDecoration(
