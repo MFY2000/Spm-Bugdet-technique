@@ -113,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
         toReturn = const UseCasePoint();
         break;
       default:
-      
         toReturn = Container(); //Container();
 
     }
