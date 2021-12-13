@@ -4,12 +4,17 @@ import 'package:flutter/cupertino.dart';
 
 class Functional {
   late int value = 0;
-  late String display;
+  late String display = "";
   TextEditingController control = TextEditingController();
   bool isValid = false;
 
   Functional(String value) {
     setDisplay(value);
+  }
+
+  Functional.secondMethods(TextEditingController Gcontrol, String value) {
+    display = value;
+    control = Gcontrol;
   }
 
   void setDisplay(String value) {
@@ -28,7 +33,7 @@ class Functional {
     return value;
   }
 
-  onChange(String change){
+  onChange(String change) {
     value = int.parse(change);
   }
 }
@@ -66,8 +71,4 @@ Map<String, List<int>> multipleScale = {
   "Scale": [0]
 };
 
-Map<String, dynamic> multipleWeight = {
-  "weight": [],
-  "Type": [],
-  "Limit": []
-};
+Map<String, dynamic> multipleWeight = {"weight": [], "Type": [], "Limit": []};
