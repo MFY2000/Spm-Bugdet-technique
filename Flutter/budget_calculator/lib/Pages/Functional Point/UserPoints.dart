@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class UserPoint extends StatefulWidget {
   final List<Functional> input;
-  const UserPoint({Key? key, required this.input}) : super(key: key);
+  bool isError;
+  UserPoint({Key? key, required this.input, required this.isError}) : super(key: key);
 
   @override
   _UserPointState createState() => _UserPointState();
@@ -22,10 +23,12 @@ class _UserPointState extends State<UserPoint> {
 
     userInput = widget.input;
     super.initState();
+    print(widget.isError);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("from inside ${widget.isError}");
     width = (MediaQuery.of(context).size.width);
 
     return Column(
@@ -59,12 +62,10 @@ class _UserPointState extends State<UserPoint> {
   Widget getTextFildStyle(int index) {
     return SizedBox(
       width: width * .35,
-      child: TextInput( 
+      child: TextInputFeild( 
           width_: 0.75,
-          taskInput: userInput[index].control,
-          inputLabel: userInput[index].display,
-          isValid: userInput[index].isValid,
-          onChange: userInput[index].onChange, index: null,),
+          input: userInput[index],
+          ),
     );
   }
 }
