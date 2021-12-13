@@ -1,11 +1,12 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
+import 'package:budget_calculator/Custom/Buttton.dart';
 import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Custom/PopupAlert.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/ScaleFactor.dart';
-import 'package:budget_calculator/Pages/Functional%20Point/UserPoints.dart';
-import 'package:budget_calculator/Pages/Functional%20Point/UserWeightFactor.dart';
+import 'package:budget_calculator/Pages/Functional%20Point/UAF/UserWeightFactor.dart';
+import 'package:budget_calculator/Pages/Functional%20Point/UserTextInputs.dart';
 import 'package:flutter/material.dart';
 
 class FunctionalPoint extends StatefulWidget {
@@ -19,7 +20,6 @@ class FunctionalPoint extends StatefulWidget {
 class _FunctionalPointState extends State<FunctionalPoint> {
   late List<Functional> inputState;
 
-  late int weightSelection, facotreSelection;
   late double widht, height;
 
   late String toReturn;
@@ -29,8 +29,6 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   late bool onPressScale = true;
   late bool onPressWeight = true;
 
-  late int factor;
-  late double CAF, UCP;
   late double functionalPoint;
 
   int onCalculate = 0;
@@ -38,9 +36,6 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   @override
   void initState() {
     // TODO: implement initState
-    weightSelection = 0;
-    facotreSelection = 0;
-
     onPressScale = true;
     onPressWeight = true;
 
@@ -96,13 +91,13 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                     ))
               ],
             ),
-            !onPressWeight
-                ? UserWeightFactor(weightfactors: weightSelection)
-                : Container(),
+            !onPressWeight ? const UserWeightFactor() : Container(),
+            
             const Divider(
               color: Colors.grey,
               thickness: 2,
             ),
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -122,28 +117,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                     ))
               ],
             ),
-            !onPressScale
-                ? ScaleFactor(
-                    weightfactors: weightScale,
-                    limit: 15,
-                  )
-                : Container(),
-            TextButton(
-                onPressed: calculate,
-                child: Container(
-                  margin: EdgeInsets.only(top: height * .0125),
-                  width: widht * .75,
-                  height: height * .05,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    "Calculate",
-                    style: TextStyle(fontSize: 15, color: Colors.white),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[600],
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(15.0))),
-                )),
+            !onPressScale ? const ScaleFactor() : Container(),
+            
+            CalculateButton(
+              calculate: calculate,
+            ),
             onCalculate == 0
                 ? Container()
                 : (onCalculate == 1
@@ -154,7 +132,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   onPressAdvance(bool turn) {
-    bool match = (turn ? weightSelection : facotreSelection) == 0;
+    bool match = (turn ? multipleWeight["Type"].length : multipleScale["Scale"].length) == 0;
 
     if (!match) {
       setState(() {
@@ -171,75 +149,58 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   calculate() {
+    int change = 1;
     setState(() {
-      onCalculate = 1;
+      onCalculate = change;
       isError = validation();
     });
+
     if (isError) {
-      toReturn = "";
-      factor = calculateFactor();
-      CAF = calculateCAF();
-      UCP = calculateUCP();
+      num CAF = calculateCAF();
+      int UCP = calculateUCP();
 
-      functionalPoint = CAF * UCP;
-
-      toReturn += "\n";
-      toReturn += "FP = CAF * UFP";
-      toReturn += "\n";
-      toReturn += "FP = $functionalPoint";
-
-      setState(() {
-        onCalculate = 2;
-      });
+      num functionalPoint = CAF * UCP;
+      defaultsSteps[10] += "$CAF * $UCP";
+      defaultsSteps[11] += "$functionalPoint";
+      change = 2;
     } else {
-      // print(error.isNotEmpty);
-      // if (error["head"]!.isNotEmpty) {
-      //   popupAlert(context, error["head"] ?? "", error["body"] ?? "");
-      // }
+      change = 0;
+      if (error["head"]!.isNotEmpty) {
+        popupAlert(context, error["head"] ?? "", error["body"] ?? "");
+      }
+    }
 
-      setState(() {
-        onCalculate = 0;
+    setState(() {
+      onCalculate = change;
+      if (change == 0) {
         error["head"] = "";
         error["body"] = "";
-      });
-    }
+      }
+    });
   }
 
   calculateFactor() {
-    int ans = 0;
-    toReturn += "F = scale * facotreSelected";
-    toReturn += "\n";
+    num ans = 0;
+    multipleScale["weight"][0] = getLimitLeft();
+    bool match;
 
-    if (onPressScale) {
-      ans = (14 * facotreSelection);
-      toReturn += "F = 14 * $facotreSelection";
-    } else {
-      String temp;
-      toReturn += "F = ";
-      for (var i = 0; i < multipleScale.values.first.length; i++) {
-        temp = i < multipleScale.values.first.length - 1 ? "+" : "";
-        ans += (multipleScale["weight"]![i] * multipleScale["Scale"]![i]);
-        toReturn +=
-            "(${multipleScale["weight"]![i]} * ${multipleScale["Scale"]![i]}) $temp";
-      }
+    for (var i = 0; i < multipleScale["weight"].length; i++) {
+      match = i < multipleScale["weight"].length;
+      defaultsSteps[1] +=
+          "${multipleScale["weight"][i]} * ${multipleScale["Scale"][i]} ${match ? "+" : ""} ";
+      ans += multipleScale["weight"][i] * multipleScale["Scale"][i];
     }
-    toReturn += "\n";
-    toReturn += "F = $ans";
-    toReturn += "\n";
 
+    defaultsSteps[2] = "$ans";
     return ans;
   }
 
   calculateCAF() {
+    num factor = calculateFactor();
     double ans = 0.65 + (0.01 * factor);
 
-    toReturn += "\n";
-    toReturn += "CAF = 0.65 + (0.01 * factor)";
-    toReturn += "\n";
-    toReturn += "C = 0.65 + (0.01 * $factor)";
-    toReturn += "\n";
-    toReturn += "C = $ans";
-    toReturn += "\n";
+    defaultsSteps[4] += "$factor)";
+    defaultsSteps[5] += "$ans";
 
     return ans;
   }
@@ -247,17 +208,19 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   calculateUCP() {
     int UFP = 0;
     String ufpCalculation = "";
-    toReturn += "\n";
-    toReturn += "UFP = (UI * EI)+(UO * EO)+(UQ * EQ)+(ELF * ILF)+(UIF * EIF)";
+
+    multipleWeight["weight"][0] = getLimitLeft();
 
     String temp = "";
 
-    var weight = wtFactors[weightSelection];
+    // var weight = wtFactors[weightSelection];
     if (onPressWeight) {
       for (var i = 0; i < inputState.length; i++) {
         temp = i < (inputState.length - 1) ? "+" : "";
-        UFP += weight[i] * inputState[i].getData();
-        ufpCalculation += "(${weight[i]} * ${inputState[i].getData()}) $temp ";
+
+        // UFP += weight[i] * inputState[i].getData();
+
+        // ufpCalculation += "(${weight[i]} * ${inputState[i].getData()}) $temp ";
       }
     } else {
       var weightingUFP = multipleWeight["weight"],
@@ -270,22 +233,11 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
       String toString = "";
 
-      // for (var i = 0; i < weightingUFP.length; i++) {
-      //   for (var j = 0; j < weightingUFP[i].length; j++) {
-      //     if(j != 0){
-      //       sum += weightingUFP[i][j];
-      //     }
-      //   }
-
-      //   weightingUFP[i][0] = limitUFP[i] -  sum;
-      // }
 
       int i = 0, j = 0;
       for (var itemweight in weightingUFP) {
         item2 = typeUFP[i];
         j = 0;
-
-        print(itemweight);
 
         for (var item in itemweight) {
           toString += i == 0 ? "" : "+";
@@ -295,15 +247,6 @@ class _FunctionalPointState extends State<FunctionalPoint> {
         }
         i++;
       }
-      // for (var i = 0; i < weightingUFP.length; i++) {
-      //   item1 = weightingUFP[i];
-
-      //   for (var j = 0; j < item1.length; j++) {
-      //     toString += i == 0 ? "" : "+";
-      //     sum += (item1[j] * item2[j])!;
-      //     toString += "(${item1[j]} * ${item2[i]})";
-      //   }
-      // }
 
       print("$toString   [ $sum,]");
     }
@@ -362,17 +305,20 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightfactors.length; i++) {
       if (weightfactors[i] == value) {
         setState(() {
-          weightSelection = i;
+          multipleWeight["Type"] = [[i], [i], [i], [i], [i]];
         });
       }
     }
   }
-
   void factoreSelect(value) {
     for (var i = 0; i < weightScale.length; i++) {
       if (weightScale[i] == value) {
         setState(() {
-          facotreSelection = i;
+          if (multipleScale["Scale"].length == 0) {
+            multipleScale["Scale"].add(i);
+          } else {
+            multipleScale["Scale"][0] = i;
+          }
         });
       }
     }
@@ -380,24 +326,23 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
   bool validation() {
     bool match = true;
+    for (var i = 0; i < inputState.length; i++) {
+      if (inputState[i].isFill()) {
+        setState(() {
+          inputState[i].isValid = true;
+          widget.input = inputState;
+        });
+      }
+      match = false;
+    }
 
-    // for (var i = 0; i < inputState.length; i++) {
-    //   if (inputState[i].isFill()) {
-    //     setState(() {
-    //       inputState[i].isValid = true;
-    //       widget.input = inputState;
-    //     });
-    //   }
-    //   match = false;
-    // }
-
-    if (facotreSelection != 0) {
+    if (multipleWeight["Type"].length != 0) {
       error["head"] = ("Select any Factor");
       error["body"] = ("Pls select any factor");
       match = false;
     }
 
-    if (weightSelection != 0) {
+    if (multipleScale["Scale"].length != 0) {
       if (error["head"]!.isNotEmpty) {
         error["head"] = "${error["head"]} and also weight";
         error["body"] = "${error["body"]} and weighting factor";
