@@ -23,12 +23,10 @@ class _UserPointState extends State<UserPoint> {
 
     userInput = widget.input;
     super.initState();
-    print(widget.isError);
   }
 
   @override
   Widget build(BuildContext context) {
-    print("from inside ${widget.isError}");
     width = (MediaQuery.of(context).size.width);
 
     return Column(
