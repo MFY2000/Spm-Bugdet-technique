@@ -24,7 +24,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
 
   late String toReturn;
 
-  late List<String> error = [];
+  late Map<String, String> error = {"head": "", "body": ""};
   late bool isError = false;
   late bool onPressScale = true;
   late bool onPressWeight = true;
@@ -171,16 +171,14 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   calculate() {
-
     setState(() {
       onCalculate = 1;
+      isError = validation();
     });
-    if (validation()) {
+    if (isError) {
       toReturn = "";
-
       factor = calculateFactor();
       CAF = calculateCAF();
-
       UCP = calculateUCP();
 
       functionalPoint = CAF * UCP;
@@ -194,19 +192,16 @@ class _FunctionalPointState extends State<FunctionalPoint> {
         onCalculate = 2;
       });
     } else {
-      setState(() {
-        isError = true;
-        onCalculate = 0;
-        error = [];
-      });
-      for (var item in inputState) {
-        if(item.isValid)
-          popupAlert(context, error[0], error[1]);
-      
-      }
-      // print("$isError");
+      // print(error.isNotEmpty);
+      // if (error["head"]!.isNotEmpty) {
+      //   popupAlert(context, error["head"] ?? "", error["body"] ?? "");
+      // }
 
-      
+      setState(() {
+        onCalculate = 0;
+        error["head"] = "";
+        error["body"] = "";
+      });
     }
   }
 
@@ -285,19 +280,17 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       //   weightingUFP[i][0] = limitUFP[i] -  sum;
       // }
 
-
       int i = 0, j = 0;
       for (var itemweight in weightingUFP) {
         item2 = typeUFP[i];
         j = 0;
-        
+
         print(itemweight);
 
         for (var item in itemweight) {
-          
           toString += i == 0 ? "" : "+";
           sum += (item * item2[j]);
-          toString += "($item * ${item2[j]})"; 
+          toString += "($item * ${item2[j]})";
           j++;
         }
         i++;
@@ -305,10 +298,10 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       // for (var i = 0; i < weightingUFP.length; i++) {
       //   item1 = weightingUFP[i];
 
-      //   for (var j = 0; j < item1.length; j++) {          
+      //   for (var j = 0; j < item1.length; j++) {
       //     toString += i == 0 ? "" : "+";
       //     sum += (item1[j] * item2[j])!;
-      //     toString += "(${item1[j]} * ${item2[i]})";      
+      //     toString += "(${item1[j]} * ${item2[i]})";
       //   }
       // }
 
@@ -386,30 +379,35 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   bool validation() {
-    for (var item in inputState) {
-      if (item.isFill()) {
-        setState(() {
-          error.add("Fill the feilds");
-          error.add("Pls ${item.display}");
-          item.isValid = true;
-        });
-        return false;
-      }
+    bool match = true;
+
+    // for (var i = 0; i < inputState.length; i++) {
+    //   if (inputState[i].isFill()) {
+    //     setState(() {
+    //       inputState[i].isValid = true;
+    //       widget.input = inputState;
+    //     });
+    //   }
+    //   match = false;
+    // }
+
+    if (facotreSelection != 0) {
+      error["head"] = ("Select any Factor");
+      error["body"] = ("Pls select any factor");
+      match = false;
     }
 
-    // if (facotreSelection != 0) {
-    //   error.add("Select any Factor");
-    //   error.add("Pls select any factor");
-    //   return false;
-    // }
+    if (weightSelection != 0) {
+      if (error["head"]!.isNotEmpty) {
+        error["head"] = "${error["head"]} and also weight";
+        error["body"] = "${error["body"]} and weighting factor";
+      } else {
+        error["head"] = ("Select any weight");
+        error["body"] = ("Pls select any weighting factor");
+      }
+      match = false;
+    }
 
-    // if (weightSelection != 0) {
-    //   error.add("Select any weight");
-    //   error.add("Pls select any weighting factor");
-    //   return false;
-    // }
-
-
-    return true;
+    return match;
   }
 }
