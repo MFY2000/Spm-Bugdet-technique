@@ -25,6 +25,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   late String toReturn;
 
   late List<String> error = [];
+  late bool isError = false;
   late bool onPressScale = true;
   late bool onPressWeight = true;
 
@@ -68,7 +69,7 @@ class _FunctionalPointState extends State<FunctionalPoint> {
                     color: Colors.teal),
               ),
             ),
-            UserPoint(input: inputState),
+            UserPoint(input: inputState, isError: isError),
             SizedBox(
               height: (height * .025),
             ),
@@ -194,10 +195,18 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       });
     } else {
       setState(() {
+        isError = true;
         onCalculate = 0;
+        error = [];
       });
-      popupAlert(context, error[0], error[1]);
-      error = [];
+      for (var item in inputState) {
+        if(item.isValid)
+          popupAlert(context, error[0], error[1]);
+      
+      }
+      // print("$isError");
+
+      
     }
   }
 
@@ -381,9 +390,9 @@ class _FunctionalPointState extends State<FunctionalPoint> {
       if (item.isFill()) {
         setState(() {
           error.add("Fill the feilds");
-          error.add("Pls fill the follwing feilds");
+          error.add("Pls ${item.display}");
+          item.isValid = true;
         });
-          item.changeState();
         return false;
       }
     }
