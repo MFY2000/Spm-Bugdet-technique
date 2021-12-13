@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:budget_calculator/Custom/Contain.dart';
 import 'package:budget_calculator/Custom/TextFeildCustom.dart';
+import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:flutter/material.dart';
 
 class CocomoCalculator extends StatefulWidget {
@@ -33,11 +34,9 @@ class _CocomoCalculatorState extends State<CocomoCalculator> {
                 fontSize: 21, fontWeight: FontWeight.bold, color: Colors.teal),
           ),
         ),
-        TextFeildCustom(
+        TextInputFeild(
           width_: 0.75,
-          taskInput: inputTextKLOC,
-          inputLabel: "Enter the value of LOC", isValid: false, 
-          onChange: (String ) {  },
+          input: Functional.secondMethods(inputTextKLOC, "Enter the value of LOC"),
         ),
         TextButton(
             onPressed: () => {calculateSlim()},
