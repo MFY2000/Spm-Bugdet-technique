@@ -25,7 +25,6 @@ class _TextInputFeildState extends State<TextInputFeild> {
   late double width_;
   late TextEditingController taskInput;
   late String inputLabel;
-  bool isValid = false;
   late void Function(String) onChange;
 
   @override
@@ -36,13 +35,11 @@ class _TextInputFeildState extends State<TextInputFeild> {
     width_ = widget.width_; 
     taskInput = widget.input.control; 
     inputLabel = widget.input.display; 
-    isValid = widget.input.isValid; 
     onChange = widget.input.onChange; 
   }
   
   @override
   Widget build(BuildContext context) {
-    print("from Text Feilds $isValid");
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .025),
       width: (MediaQuery.of(context).size.width) * width_,
@@ -52,7 +49,7 @@ class _TextInputFeildState extends State<TextInputFeild> {
         onChanged: onChangeInput,
         decoration: InputDecoration(
           border: const OutlineInputBorder(),
-          errorText: isValid ? "Please $inputLabel" : null,
+          errorText: widget.input.isValid ? "Please $inputLabel" : null,
           labelText: inputLabel,
         ),
         textInputAction: TextInputAction.next,
@@ -61,11 +58,11 @@ class _TextInputFeildState extends State<TextInputFeild> {
   }
 
   onChangeInput(String value) {
-    print(isValid);
-    if (isValid) {
-      if(value.isEmpty){
+    
+    if (widget.input.isValid) {
+      if(value.isNotEmpty){
         setState(() {
-          isValid = false;   
+          widget.input.isValid = false;   
         });
       }
     }
