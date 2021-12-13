@@ -1,25 +1,48 @@
 // ignore_for_file: file_names, must_be_immutable
 
+import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:flutter/material.dart';
 
-class TextFeildCustom extends StatelessWidget {
-  final double width_;
-  final TextEditingController taskInput;
-  final String inputLabel;
-  bool isValid = false;
-  final void Function(String) onChange;
 
-  TextFeildCustom({
+class TextInputFeild extends StatefulWidget {
+  final double width_;
+  final Functional input;
+
+
+  TextInputFeild({
     Key? key,
     required this.width_,
-    required this.taskInput,
-    required this.inputLabel,
-    required this.isValid,
-    required this.onChange,
+    required this.input,
+
   }) : super(key: key);
 
+
+  @override
+  _TextInputFeildState createState() => _TextInputFeildState();
+}
+
+class _TextInputFeildState extends State<TextInputFeild> {
+  late double width_;
+  late TextEditingController taskInput;
+  late String inputLabel;
+  bool isValid = false;
+  late void Function(String) onChange;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    width_ = widget.width_; 
+    taskInput = widget.input.control; 
+    inputLabel = widget.input.display; 
+    isValid = widget.input.isValid; 
+    onChange = widget.input.onChange; 
+  }
+  
   @override
   Widget build(BuildContext context) {
+    print("from Text Feilds $isValid");
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * .025),
       width: (MediaQuery.of(context).size.width) * width_,
@@ -28,8 +51,8 @@ class TextFeildCustom extends StatelessWidget {
         keyboardType: TextInputType.number,
         onChanged: onChangeInput,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          errorText: isValid ? "Please ${inputLabel}" : null,
+          border: const OutlineInputBorder(),
+          errorText: isValid ? "Please $inputLabel" : null,
           labelText: inputLabel,
         ),
         textInputAction: TextInputAction.next,
@@ -38,11 +61,15 @@ class TextFeildCustom extends StatelessWidget {
   }
 
   onChangeInput(String value) {
-    onChange(value);
-
+    print(isValid);
     if (isValid) {
-      isValid = value.isEmpty;
+      if(value.isEmpty){
+        setState(() {
+          isValid = false;   
+        });
+      }
     }
+    onChange(value);
   }
 }
 
@@ -52,7 +79,7 @@ class TextInput extends StatefulWidget {
   final String inputLabel;
   final void Function(int index, String value) onChange;
   final int index;
-  double width_;
+  
   TextInput(
       {Key? key,
       required this.isValid,
@@ -60,7 +87,7 @@ class TextInput extends StatefulWidget {
       required this.taskInput,
       required this.index,
       required this.onChange,
-      required this.width_})
+      })
       : super(key: key);
 
   @override
