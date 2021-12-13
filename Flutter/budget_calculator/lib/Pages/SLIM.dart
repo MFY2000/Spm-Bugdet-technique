@@ -2,6 +2,7 @@
 
 import 'package:budget_calculator/Custom/Contain.dart';
 import 'package:budget_calculator/Custom/TextFeildCustom.dart';
+import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:flutter/material.dart';
 
 class SLIMCalculator extends StatefulWidget {
@@ -12,12 +13,23 @@ class SLIMCalculator extends StatefulWidget {
 }
 
 class _SLIMCalculatorState extends State<SLIMCalculator> {
+  List<Functional> list = []; 
+
   TextEditingController inputTextLOC = TextEditingController();
   TextEditingController inputTextC = TextEditingController();
   TextEditingController inputTextT = TextEditingController();
 
   String ResultToString = "";
   var Result;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    list.add(Functional.secondMethods(inputTextLOC, "Enter the value of LOC"));
+    list.add(Functional.secondMethods(inputTextC, "Enter the value of C (610 to 57314)"));
+    list.add(Functional.secondMethods(inputTextT,  "Enter the value of t"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +45,17 @@ class _SLIMCalculatorState extends State<SLIMCalculator> {
                 fontSize: 21, fontWeight: FontWeight.bold, color: Colors.teal),
           ),
         ),
-        TextFeildCustom(
+        TextInputFeild(
           width_: 0.75,
-          taskInput: inputTextLOC,
-          inputLabel: "Enter the value of LOC", isValid: false,onChange: (String ) {  },
+          input: list[0],
         ),
-        TextFeildCustom(
+        TextInputFeild(
           width_: 0.75,
-          taskInput: inputTextC,
-          inputLabel: "Enter the value of C (610 to 57314)", isValid: false,onChange: (String ) {  },
+          input: list[1]
         ),
-        TextFeildCustom(
+        TextInputFeild(
           width_: 0.75,
-          taskInput: inputTextT,
-          inputLabel: "Enter the value of t", isValid: false,onChange: (String ) {  },
+          input: list[2]
         ),
         TextButton(
             onPressed: () => {calculateSlim()},
