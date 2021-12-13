@@ -38,6 +38,17 @@ class Functional {
   }
 }
 
+
+  getLimitLeft() {
+    num limit = 14;
+    if (multipleScale["weight"].length != 1) {
+      for (var i = 1; i < multipleScale["weight"].length; i++) {
+        limit -= multipleScale["weight"][i];
+      }
+    }
+    return limit;
+  }
+
 List<String> inputStringFP = [
   "User Input",
   "User Output",
@@ -66,9 +77,21 @@ List<String> weightScale = [
   "Essential"
 ];
 
-Map<String, List<int>> multipleScale = {
-  "weight": [0],
-  "Scale": [0]
-};
+Map<String, dynamic> multipleScale = {"weight": [14], "Scale": [], "Limit": 14};
 
 Map<String, dynamic> multipleWeight = {"weight": [], "Type": [], "Limit": []};
+
+List<String> defaultsSteps = [
+  "F = scale * facotreSelected", // 0
+  "F = ", // 1
+  "F = ", // 2
+  "CAF = 0.65 + (0.01 * factor)", // 3
+  "C = 0.65 + (0.01 * ", // 4
+  "C = ",  // 5
+  "UFP = (UI * EI) + (UO * EO) + (UQ * EQ) + (ELF * ILF) + (UIF * EIF)", // 6
+  "UFP = ", // 7
+  "UFP = ", // 8
+  "FP = CAF * UFP", // 9
+  "FP = ", // 10
+  "FP = " // 11
+];
