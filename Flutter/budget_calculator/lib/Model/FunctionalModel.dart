@@ -26,7 +26,7 @@ class Functional {
   }
 
   bool isFill() {
-    return value == 0;
+    return control.value.text.isEmpty;
   }
 
   int getData() {
