@@ -40,9 +40,20 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
     if (multipleWeight["Limit"] != limit) {
       multipleWeight["weight"] = weight;
       multipleWeight["Limit"] = limit;
+    }else{
+      updateList(limit);
     }
 
     print("from my weightFactor $multipleWeight");
     return toReturn;
+  }
+
+  updateList(var limit){
+    for (var i = 0; i < multipleWeight["Limit"].length; i++) {
+      if(multipleWeight["Limit"][i] != limit[i]){
+        multipleWeight["Limit"][i] = limit[i];
+        multipleWeight["weight"][i][0] = limit[i];
+      }
+    }
   }
 }
