@@ -305,7 +305,13 @@ class _FunctionalPointState extends State<FunctionalPoint> {
     for (var i = 0; i < weightfactors.length; i++) {
       if (weightfactors[i] == value) {
         setState(() {
-          multipleWeight["Type"] = [[i], [i], [i], [i], [i]];
+          if (multipleWeight["Type"] .length == 0) {
+            multipleWeight["Type"] = [[i], [i], [i], [i], [i]];
+          }else{
+            for (var j = 0; j < 5; j++) {
+              multipleWeight["Type"][0][j] = i;
+            }
+          }
         });
       }
     }
