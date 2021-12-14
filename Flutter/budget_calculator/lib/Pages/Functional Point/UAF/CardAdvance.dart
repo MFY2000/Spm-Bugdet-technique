@@ -25,7 +25,7 @@ class _CardAdvanceState extends State<CardAdvance> {
 
   late List<dynamic> weight = [], type = [];
 
-  late List<TextEditingController> control = [];
+  late List<Functional> control = [];
 
   late bool isSave = false;
 
@@ -101,8 +101,7 @@ class _CardAdvanceState extends State<CardAdvance> {
     int count = 0;
     if (children != 1) {
       for (var i = 1; i < children; i++, count++) {
-        print("$i $currentIndex $count");
-        control.add(TextEditingController());
+        control.add(Functional("weight"));
         toReturn.add(Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -111,8 +110,11 @@ class _CardAdvanceState extends State<CardAdvance> {
                 width: MediaQuery.of(context).size.width * .125,
                 child: TextField(
                   enabled: (currentIndex == i),
-                  decoration: InputDecoration(hintText: "Enter"),
-                  controller: control[count],
+                  decoration: InputDecoration(
+                      hintText: "Enter",
+
+                      errorText: control[count].isValid ? " Error " : null),
+                  controller: control[count].control,
                   onChanged: (String value) {
                     onChange(value, count);
                   },
@@ -123,7 +125,7 @@ class _CardAdvanceState extends State<CardAdvance> {
                 onSelect(value, count);
               },
             ),
-            addButton(count)
+            buttonToDisplay(i)
           ],
         ));
       }
@@ -171,47 +173,57 @@ class _CardAdvanceState extends State<CardAdvance> {
   }
 
   onChange(String value, int index) {
+    bool isError = false;
+    
     int temp = weight[index];
-    if (index == currentIndex) {
-      int typing = 0;
-      typing = int.parse(value);
+    int typing = int.parse(value);
 
-      if (limit >= typing) {
-        weight[index] = typing;
-        if (!isWeightDivided()) {
-          popupAlert(context, "Exclude from Limit",
-              "Pls Enter value between the Limit");
-          control[index].text = "$temp";
-        }
-      } else {
-        popupAlert(
-            context, "Exclude from Limit", "Pls Enter value between the Limit");
-        control[index].text = "$temp";
-      }
+    if (limitLeft() >= typing) {
+      weight[index] = typing;
+      isError = false;
     } else {
-      control[index].text = "$temp";
+      control[index].control.text = "$temp";
+      weight[index] = temp;
+      isError = true;
     }
+
+    print("$isError");
+    setState(() {
+      control[index].isValid = isError;
+    });
+    print("$weight");
+
   }
 
   onSelect(String value, int index) {
     if (index == currentIndex) {
       for (var i = 0; i < weightfactors.length; i++) {
         if (weightfactors[i] == value) {
-          type[currentIndex] = wtFactors[i][widget.selection];
+          type[currentIndex] = i;
         }
       }
     }
   }
 
-  addButton(int i) {
+  buttonToDisplay(int i) {
     bool match = (i == currentIndex);
 
-    return IconButton(
-        onPressed: () => {match ? onEdit(i) : onDelete(i)},
-        icon: Icon(
-          match ? Icons.edit : Icons.delete,
-          color: match ? Colors.green : Colors.red,
-        ));
+    return Row(
+      children: [
+        IconButton(
+            onPressed: () => {match ? onEdit(i) : onDelete(i)},
+            icon: Icon(
+              match ? Icons.edit : Icons.delete,
+              color: match ? Colors.green : Colors.red,
+            )),
+        IconButton(
+            onPressed: () => {onDelete(i)},
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.red,
+            )),
+      ],
+    );
   }
 
   onDelete(int index) {
@@ -231,5 +243,13 @@ class _CardAdvanceState extends State<CardAdvance> {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  limitLeft() {
+    num limitLeft = limit;
+    for (var i = 1; i < weight.length; i++) {
+      limitLeft -= weight[i];
+    }
+    return limitLeft;
   }
 }
