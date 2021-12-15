@@ -108,15 +108,20 @@ class _CardAdvanceState extends State<CardAdvance> {
             Container(
                 padding: const EdgeInsets.only(bottom: 17),
                 width: MediaQuery.of(context).size.width * .125,
-                child: TextField(
+                child: TextFormField(
                   enabled: (currentIndex == i),
-                  decoration: InputDecoration(
-                      hintText: "Enter",
-
-                      errorText: control[count].isValid ? " Error " : null),
+                  validator: (value) {
+                    if (value == null || value.isEmpty || limitLeft() < value) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: "Enter",
+                  ),
                   controller: control[count].control,
                   onChanged: (String value) {
-                    onChange(value, count);
+                    onChange(value, currentIndex);
                   },
                 )),
             DropDownLst(
@@ -174,7 +179,7 @@ class _CardAdvanceState extends State<CardAdvance> {
 
   onChange(String value, int index) {
     bool isError = false;
-    
+
     int temp = weight[index];
     int typing = int.parse(value);
 
@@ -182,48 +187,42 @@ class _CardAdvanceState extends State<CardAdvance> {
       weight[index] = typing;
       isError = false;
     } else {
-      control[index].control.text = "$temp";
-      weight[index] = temp;
-      isError = true;
+      setState(() {
+        weight[index] = temp;
+        control[index].control.text = "$temp";
+        isError = true;
+      });
     }
 
-    print("$isError");
     setState(() {
       control[index].isValid = isError;
     });
     print("$weight");
-
   }
 
   onSelect(String value, int index) {
     if (index == currentIndex) {
       for (var i = 0; i < weightfactors.length; i++) {
         if (weightfactors[i] == value) {
-          type[currentIndex] = i;
+          setState(() {
+            type[currentIndex] = i;
+            multipleWeight["Type"][widget.selection] = type;
+          });
         }
       }
+      print(multipleWeight);
     }
   }
 
   buttonToDisplay(int i) {
-    bool match = (i == currentIndex);
+    bool match = !(i == currentIndex);
 
-    return Row(
-      children: [
-        IconButton(
-            onPressed: () => {match ? onEdit(i) : onDelete(i)},
-            icon: Icon(
-              match ? Icons.edit : Icons.delete,
-              color: match ? Colors.green : Colors.red,
-            )),
-        IconButton(
-            onPressed: () => {onDelete(i)},
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.red,
-            )),
-      ],
-    );
+    return IconButton(
+        onPressed: () => {match ? onEdit(i) : onDelete(i)},
+        icon: Icon(
+          match ? Icons.edit : Icons.delete,
+          color: match ? Colors.green : Colors.red,
+        ));
   }
 
   onDelete(int index) {
