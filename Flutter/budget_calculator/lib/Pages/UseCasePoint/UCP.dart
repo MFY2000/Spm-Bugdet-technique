@@ -1,6 +1,9 @@
 // ignore_for_file: file_names
 
+import 'package:budget_calculator/Custom/Buttton.dart';
 import 'package:budget_calculator/Custom/Contain.dart';
+import 'package:budget_calculator/Custom/Heading/Heading1.dart';
+import 'package:budget_calculator/Pages/UseCasePoint/TechnicalFactor.dart';
 import 'package:budget_calculator/Pages/UseCasePoint/UserInput.dart';
 import 'package:flutter/material.dart';
 
@@ -26,87 +29,19 @@ class _UseCasePointState extends State<UseCasePoint> {
             child: Column(
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      'Use Case Point',
-                      style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      'UUCW',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54),
-                    ),
-                  ),
-                  UserInput(
-                    lstWeight: [5, 10, 15],
-                    noOfChild: 3,
-                    onchange: onChange,
-                    index: 0,
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    thickness: 2,
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      'UUCW',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54),
-                    ),
-                  ),
-                  UserInput(
-                    lstWeight: [1, 2, 3],
-                    noOfChild: 3,
-                    onchange: onChange,
-                    index: 1,
-                  ),
-                  TextButton(
-                      onPressed: calculate,
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * .0125),
-                        width: MediaQuery.of(context).size.width * .75,
-                        height: MediaQuery.of(context).size.height * .05,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "Calculate",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        decoration: BoxDecoration(
-                            color: Colors.blue[600],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0))),
-                      )),
-                  onCalculate == 0
-                      ? Container()
-                      : (onCalculate == 1
-                          ? const CircularProgressIndicator()
-                          : getResult()),
+                  const Heading1(heading: 'Use Case Point',type: true,),
+                  
+                  const UserInput(childName: "UUCW"),
+                  const UserInput(childName: "UAW",),
+                  const TechnicalFactor(typeFacorte: true,), 
+                  const TechnicalFactor(typeFacorte: false,), 
+                  
+                  CalculateButton(calculate: calculate),
+                  
+                  onCalculate == 0 ? Container() : (onCalculate == 1 ? const CircularProgressIndicator() : getResult()),
                 ])));
   }
 
-  onChange(String toReturn, int index, double answer) {
-    index == 0 ? UUCW = answer : UAW = answer;
-
-    lstToReturn[index] = "${index == 0 ? "UUCW" : "UAW"} = $toReturn";
-    lstToReturn[index] += "${index == 0 ? "UUCW" : "UAW"} = $answer";
-    lstToReturn[index] += "\n";
-
-  }
 
    getResult() {
     return Stack(
