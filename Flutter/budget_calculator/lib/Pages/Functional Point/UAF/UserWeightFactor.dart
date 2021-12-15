@@ -31,7 +31,7 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
 
     List<dynamic> weight = [], limit = [];
 
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 5; i++) {
       weight.add([inputControllerFP[i].value]);
       limit.add(inputControllerFP[i].value);
       toReturn.add(CardAdvance(heading: inputStringFP[i], selection: i));
@@ -44,7 +44,6 @@ class _UserWeightFactorState extends State<UserWeightFactor> {
       updateList(limit);
     }
 
-    print("from my weightFactor $multipleWeight");
     return toReturn;
   }
 
