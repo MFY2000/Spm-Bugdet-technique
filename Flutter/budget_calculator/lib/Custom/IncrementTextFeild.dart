@@ -39,7 +39,6 @@ class _NumericStepButtonState extends State<NumericStepButton> {
             ),
             iconSize: 10.0,
             onPressed: () {
-              
               onChangeState(counter > widget.minValue, true);
             },
           ),
@@ -79,7 +78,7 @@ class _NumericStepButtonState extends State<NumericStepButton> {
   onChangeState(bool toChange, bool toGo) {
     if (toChange) {
       setState(() {
-        counter = toGo ? counter-1: counter+1;
+        counter = toGo ? counter - 1 : counter + 1;
       });
       widget.onChanged(counter);
     }
