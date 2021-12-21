@@ -3,6 +3,9 @@
 import 'package:budget_calculator/Custom/Buttton.dart';
 import 'package:budget_calculator/Custom/Contain.dart';
 import 'package:budget_calculator/Custom/Heading/Heading1.dart';
+import 'package:budget_calculator/Custom/Solution/SolutionTemplete.dart';
+import 'package:budget_calculator/Model/FunctionalModel.dart';
+import 'package:budget_calculator/Model/UseCaseModel.dart';
 import 'package:budget_calculator/Pages/UseCasePoint/TechnicalFactor.dart';
 import 'package:budget_calculator/Pages/UseCasePoint/UserInput.dart';
 import 'package:flutter/material.dart';
@@ -29,95 +32,62 @@ class _UseCasePointState extends State<UseCasePoint> {
             child: Column(
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Heading1(heading: 'Use Case Point',type: true,),
-                  
+                  const Heading1(
+                    heading: 'Use Case Point',
+                    type: true,
+                  ),
+
                   const UserInput(childName: "UUCW"),
-                  const UserInput(childName: "UAW",),
-                  const TechnicalFactor(typeFacorte: true,), 
-                  const TechnicalFactor(typeFacorte: false,), 
+                  const UserInput(childName: "UAW"),
                   
+                  const TechnicalFactor(
+                    typeFacorte: true,
+                  ),
+                  const TechnicalFactor(
+                    typeFacorte: false,
+                  ),
                   CalculateButton(calculate: calculate),
-                  
-                  onCalculate == 0 ? Container() : (onCalculate == 1 ? const CircularProgressIndicator() : getResult()),
+                  onCalculate == 0
+                      ? Container()
+                      : (onCalculate == 1
+                          ? const CircularProgressIndicator()
+                          : getResult()),
                 ])));
   }
 
-
-   getResult() {
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: 400,
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            border: Border.all(
-                color: const Color.fromARGB(255, 51, 204, 255), width: 1),
-            borderRadius: BorderRadius.circular(5),
-            shape: BoxShape.rectangle,
-          ),
-          child: Text(
-            printAnswer,
-            textAlign: TextAlign.left,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 15,
-            // ignore: prefer_const_constructors
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-        Positioned(
-            left: 50,
-            top: 12,
-            child: Container(
-              padding: EdgeInsets.only(bottom: 10),
-              color: Colors.white,
-              child: const Text(
-                'Solution',
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            )),
-      ],
-    );
+  getResult() {
+    return SolutionTemplete(headings: const {
+      "UUCP": [0, 9],
+      "TF": [9, 12],
+      "EF": [12, 15],
+      "Use Case Point(UCP)": [15, 18]
+    }, data: defualtStep);
   }
 
   calculate() {
+    
+    num uucp = 0, tc = 0, ef = 0;
     setState(() {
       onCalculate = 1;
     });
 
-    if (validation()) {
-      double UUCP = UAW + UUCW;
+    uucp = input["UUCP"]["UUCW"] + input["UUCP"]["UAW"];
+    defualtStep[7] = "UUCP = ${input["UUCP"]["UUCW"]} + ${input["UUCP"]["UAW"]}";
+    defualtStep[8] = "UUCP = $uucp";
 
-      printAnswer += lstToReturn[0];
-      printAnswer += "\n";
-
-      printAnswer += lstToReturn[1];
-      printAnswer += "\n";
-
-      printAnswer += "UUCP = UAW + UUCW";
-      printAnswer += "\n";
-      printAnswer += "UUCP = $UUCP";
-      setState(() {
-        onCalculate = 2;
-      });
-    } else {
-      setState(() {
-        onCalculate = 0;
-      });
-    }
-  }
-
-  bool validation() {
-    if (UUCW == 0.0) {
-      return false;
-    } else if (UUCW == 0.0) {
-      return false;
-    } else {
-      return true;
-    }
+    tc = 0.6 + (0.01 * input["UUCP"]["TC"]);
+    defualtStep[10] = "TCF = 0.6 + (0.01 * ${input["UUCP"]["TC"]})";
+    defualtStep[11] = "TCF = $tc";
+    
+    ef = 1.4 + (-0.03 * input["UUCP"]["EF"]);
+    defualtStep[13] = "EF = 1.4 + (-0.03 * ${input["UUCP"]["EF"]})";
+    defualtStep[14] = "EF = $ef";
+    
+    defualtStep[16] = "UCP = $uucp * $tc * $ef";
+    defualtStep[17] = "UCP = ${uucp * tc * ef}";
+    
+    setState(() {
+      onCalculate = 2;
+    });
   }
 }
