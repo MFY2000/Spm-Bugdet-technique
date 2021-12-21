@@ -3,6 +3,7 @@
 import 'package:budget_calculator/Custom/Buttton.dart';
 import 'package:budget_calculator/Custom/DropDown.dart';
 import 'package:budget_calculator/Custom/PopupAlert.dart';
+import 'package:budget_calculator/Custom/Solution/SolutionTemplete.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/ScaleFactor.dart';
 import 'package:budget_calculator/Pages/Functional%20Point/UAF/UserWeightFactor.dart';
@@ -242,44 +243,12 @@ class _FunctionalPointState extends State<FunctionalPoint> {
   }
 
   getResult() {
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: 400,
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            border: Border.all(
-                color: const Color.fromARGB(255, 51, 204, 255), width: 1),
-            borderRadius: BorderRadius.circular(5),
-            shape: BoxShape.rectangle,
-          ),
-          child: Text(
-            (defaultsSteps.toString()).replaceAll(RegExp(r','), '\n'),
-            textAlign: TextAlign.left,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 15,
-            // ignore: prefer_const_constructors
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-        Positioned(
-            left: 50,
-            top: 12,
-            child: Container(
-              padding: EdgeInsets.only(bottom: 10),
-              color: Colors.white,
-              child: const Text(
-                'Solution',
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            )),
-      ],
-    );
+    return SolutionTemplete(headings: const {
+      "Factors": [0, 3],
+      "CAF": [3, 6],
+      "UFP": [6, 9],
+      "Functional Point(FP)": [9, 12]
+    }, data: defaultsSteps);
   }
 
   void weightSelect(value) {
