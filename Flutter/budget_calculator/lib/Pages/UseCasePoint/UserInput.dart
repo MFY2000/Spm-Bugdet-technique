@@ -34,7 +34,10 @@ class _UserInputState extends State<UserInput> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Heading1(heading: child,type: false,),
+        Heading1(
+          heading: child,
+          type: false,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: getTextFeild(),
@@ -57,15 +60,22 @@ class _UserInputState extends State<UserInput> {
 
   getAnswer() {
     num answer = 0;
-
-    List<dynamic> inputValue = input[child]["input"];
-    List<dynamic> inputwegiht = input[child]["weight"];
+    int index = 0;
+    String ansToString = "";
+    
+    List<dynamic> inputValue = input[child]["input"],
+        inputwegiht = input[child]["weight"];
 
     for (var i = 0; i < inputValue.length; i++) {
       answer += inputValue[i] * inputwegiht[i];
+      ansToString += "${inputValue[i]} * ${inputwegiht[i]}";
     }
 
+    index = child == "UUCW" ? 1 : 4;
     input["UUCP"][child] = answer;
+
+    defualtStep[index] = "$child = $ansToString";
+    defualtStep[++index] = "$child = $answer";
 
     return answer;
   }
