@@ -16,11 +16,12 @@ class TechnicalFactor extends StatefulWidget {
 
 class _TechnicalFactorState extends State<TechnicalFactor> {
   List<String> description = [];
-  String main = "TC";
+  String main = "TCF";
 
   @override
   void initState() {
     // TODO: implement initState
+    print(widget.typeFacorte);
     description = widget.typeFacorte ? descriptionFactor : descriptionEFactor;
     main = widget.typeFacorte ? "TCF" : "EF";
 
@@ -33,6 +34,7 @@ class _TechnicalFactorState extends State<TechnicalFactor> {
 
   @override
   Widget build(BuildContext context) {
+    print(main);
     return Column(children: getList());
   }
 
@@ -45,7 +47,7 @@ class _TechnicalFactorState extends State<TechnicalFactor> {
       toReturn.add(TableRowCard(
         data: [
           description[i],
-          "${input["TC"]["weight"][i]}",
+          "${input[main]["weight"][i]}",
           const [0, 5]
         ],
         onChange: (int value) {
@@ -114,6 +116,9 @@ class _TechnicalFactorState extends State<TechnicalFactor> {
     for (var i = 0; i < input[main]['input'].length; i++) {
       total += input[main]['input'][i] * input[main]['weight'][i];
     }
+
+    input["UUCP"][main == "TCP" ? "TF" : "EF"] = total.toInt();
+    print(total);
 
     return Container(
       margin: const EdgeInsets.only(top: 5),
