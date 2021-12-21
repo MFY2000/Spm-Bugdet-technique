@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:budget_calculator/Custom/Contain.dart';
+import 'package:budget_calculator/Custom/Solution/SolutionTemplete.dart';
 import 'package:budget_calculator/Custom/TextFeildCustom.dart';
 import 'package:budget_calculator/Model/FunctionalModel.dart';
 import 'package:flutter/material.dart';
